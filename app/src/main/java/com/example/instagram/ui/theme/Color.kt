@@ -13,4 +13,4 @@ val Pink40 = Color(0xFF7D5260)
 
 val topBarColorAlpha = Color(0x80FAFAFA)
 val mainIconColor = Color(0xFF262626)
-val mainSeperatorColor = Color(0xC36B6B6B)
+val mainSeperatorColor = Color(0x946B6B6B)

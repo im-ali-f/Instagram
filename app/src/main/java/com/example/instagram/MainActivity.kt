@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.instagram.homePage.DATA.VMs.InstagramMainVM
 import com.example.instagram.homePage.HomeComp
 import com.example.instagram.ui.theme.InstagramTheme
 
@@ -24,11 +25,16 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navStateBig = rememberNavController()
+
+
+                    //val repo = Repository()
+                    //val viewModel = MainViewModel(repo)
+                    val model = InstagramMainVM()
+
                     NavHost(navController = navStateBig , startDestination = "homePage" ){
                         composable("homePage"){
-                            HomeComp(navStateBig)
+                            HomeComp(navStateBig , model)
                         }
-
                     }
                 }
             }
