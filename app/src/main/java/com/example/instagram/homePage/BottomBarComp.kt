@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagram.R
-import com.example.instagram.homePage.DATA.VMs.InstagramMainVM
+import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.ui.theme.mainIconColor
 import com.example.instagram.ui.theme.mainSeperatorColor
 
@@ -51,7 +51,7 @@ fun BottmBarComp(model: InstagramMainVM) {
         )
         //end sep
         Row(
-            Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 10.dp),
+            Modifier.fillMaxWidth().padding(top = 0.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {

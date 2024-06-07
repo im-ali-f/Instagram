@@ -1,12 +1,16 @@
 package com.example.instagram.homePage
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.instagram.homePage.DATA.VMs.InstagramMainVM
+import com.example.instagram.homePage.BottmBarComp
+import com.example.instagram.DATA.VMs.InstagramMainVM
+import com.example.instagram.homePage.TopBarComp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -21,6 +25,10 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
         }
 
     ) {
+
+        Column(Modifier.fillMaxSize().padding(it)) {
+            StorysComp(model)
+        }
 
     }
 }
