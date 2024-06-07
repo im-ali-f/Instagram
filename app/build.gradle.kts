@@ -106,4 +106,7 @@ dependencies {
 
     //JSON convertor
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.4")
+
+    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
 }
