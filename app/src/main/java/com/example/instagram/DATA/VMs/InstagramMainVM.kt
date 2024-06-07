@@ -60,5 +60,57 @@ class InstagramMainVM:ViewModel() {
             "imageUrl" to Color.Gray
         ),
     )
+    val PostsMapList = listOf(
+
+        mapOf(
+            "name" to "im_ali_f",
+            "official" to false,
+            "place" to "New York, America",
+            "imageUrl" to Color.Red,
+            "pageCount" to 3,
+            "contentList" to listOf(Color.Yellow, Color.Gray , Color.Blue),
+            "like" to false,
+            "save"  to false,
+            "text"  to "The game in Japan was amazing and I want to share some photos",
+            "likeCount"  to 444221,
+            "followerLiked" to true,
+            "followerLikedName" to "someone",
+        ),
+
+        mapOf(
+            "name" to "ehsan",
+            "official" to true,
+            "place" to "Tehran, Iran",
+            "imageUrl" to Color.Blue,
+            "pageCount" to 1,
+            "contentList" to listOf(Color.Yellow),
+            "like" to false,
+            "save"  to false,
+            "text"  to "The game in Japan was amazing and I want to share some photos",
+            "likeCount"  to 532945,
+            "followerLiked" to false,
+            "followerLikedName" to "",
+
+            ),
+
+        mapOf(
+            "name" to "moniba",
+            "official" to true,
+            "place" to "Tokyo, Japan",
+            "imageUrl" to Color.Cyan,
+            "pageCount" to 5,
+            "contentList" to listOf(Color.Yellow, Color.Gray , Color.Blue , Color.Green , Color.LightGray),
+            "like" to false,
+            "save"  to false,
+            "text"  to "The game in Japan was amazing and I want to share some photos",
+            "likeCount"  to 778234,
+            "followerLiked" to true,
+            "followerLikedName" to "someone_else",
+
+            ),
+
+
+
+    )
 
 }

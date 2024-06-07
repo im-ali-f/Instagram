@@ -85,7 +85,7 @@ fun TopBarComp() {
             }
         }
 
-        Box(modifier = Modifier.fillMaxWidth().height(0.8.dp).background(mainSeperatorColor))
+        Box(modifier = Modifier.fillMaxWidth().height(0.5.dp).background(mainSeperatorColor))
     }
 
 

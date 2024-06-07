@@ -46,7 +46,7 @@ fun BottmBarComp(model: InstagramMainVM) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(1.dp)
+                .height(0.5.dp)
                 .background(mainSeperatorColor)
         )
         //end sep

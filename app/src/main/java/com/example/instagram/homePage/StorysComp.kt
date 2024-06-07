@@ -265,7 +265,7 @@ fun StorysComp(model: InstagramMainVM) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(0.8.dp)
+                .height(0.5.dp)
                 .background(mainSeperatorColor)
         )
 
