@@ -28,6 +28,7 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
 
         Column(Modifier.fillMaxSize().padding(it)) {
             StorysComp(model)
+            PostsComp(model)
         }
 
     }
