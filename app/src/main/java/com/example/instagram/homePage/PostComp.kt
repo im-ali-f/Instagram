@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.ui.theme.mainFontColor
 import com.example.instagram.R
+import com.example.instagram.ui.theme.activeDotColor
+import com.example.instagram.ui.theme.deActiveDotColor
 import com.example.instagram.ui.theme.mainIconColor
 import com.example.instagram.ui.theme.officialColor
 import com.example.instagram.ui.theme.pageCountBGCColor
@@ -163,13 +166,13 @@ fun PostsComp(model: InstagramMainVM) {
                             .fillMaxWidth()
                             .padding(top = 5.dp)) {
 
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(verticalAlignment = Alignment.CenterVertically ,modifier= Modifier.align(Alignment.CenterStart)) {
                             IconButton(onClick = {}
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.like),
                                     modifier = Modifier.size(26.dp),
-                                    contentDescription = "moreIcon",
+                                    contentDescription = "postIcon",
                                     tint = mainIconColor
                                 )
                             }
@@ -178,7 +181,7 @@ fun PostsComp(model: InstagramMainVM) {
                                 Icon(
                                     painter = painterResource(R.drawable.comment),
                                     modifier = Modifier.size(26.dp),
-                                    contentDescription = "moreIcon",
+                                    contentDescription = "postIcon",
                                     tint = mainIconColor
                                 )
                             }
@@ -187,11 +190,42 @@ fun PostsComp(model: InstagramMainVM) {
                                 Icon(
                                     painter = painterResource(R.drawable.messanger),
                                     modifier = Modifier.size(26.dp),
-                                    contentDescription = "moreIcon",
+                                    contentDescription = "postIcon",
                                     tint = mainIconColor
                                 )
                             }
                         }
+
+                        //page counter dots
+                        Row(Modifier.align(Alignment.Center), verticalAlignment = Alignment.CenterVertically){
+                            Box(modifier = Modifier
+                                .size(8.dp)
+                                .clip(RoundedCornerShape(100))
+                                .background(activeDotColor))
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Box(modifier = Modifier
+                                .size(8.dp)
+                                .clip(RoundedCornerShape(100))
+                                .background(deActiveDotColor))
+                            Spacer(modifier = Modifier.width(5.dp))
+                            Box(modifier = Modifier
+                                .size(8.dp)
+                                .clip(RoundedCornerShape(100))
+                                .background(deActiveDotColor))
+                        }
+
+                        Box(modifier = Modifier.align(Alignment.CenterEnd)){
+                            IconButton(onClick = {}
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.save),
+                                    modifier = Modifier.size(26.dp),
+                                    contentDescription = "postIcon",
+                                    tint = mainIconColor
+                                )
+                            }
+                        }
+
 
                     }
                 }
