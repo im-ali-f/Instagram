@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,7 +45,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagram.DATA.VMs.InstagramMainVM
-import com.example.instagram.ui.theme.mainFontColor
+
 import com.example.instagram.ui.theme.mainSeperatorColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -162,7 +163,7 @@ fun StorysComp(model: InstagramMainVM) {
                             fontSize = 15.sp,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
-                            color = mainFontColor,
+                            color = MaterialTheme.colorScheme.tertiary,
                             overflow = TextOverflow.Ellipsis
 
                         )
@@ -251,7 +252,7 @@ fun StorysComp(model: InstagramMainVM) {
                             fontSize = 15.sp,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
-                            color = mainFontColor,
+                            color = MaterialTheme.colorScheme.tertiary,
                             overflow = TextOverflow.Ellipsis
 
                         )

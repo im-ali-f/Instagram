@@ -18,6 +18,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagram.R
 import com.example.instagram.DATA.VMs.InstagramMainVM
-import com.example.instagram.ui.theme.mainIconColor
 import com.example.instagram.ui.theme.mainSeperatorColor
 
 @Composable
@@ -39,7 +39,7 @@ fun BottmBarComp(model: InstagramMainVM) {
     Box(
         Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.onPrimary)
             .padding(bottom = 5.dp)
     ) {
         //sep
@@ -65,7 +65,7 @@ fun BottmBarComp(model: InstagramMainVM) {
                     Icon(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = R.drawable.homepage),
-                        tint = if (model.selectedBottomBar.value == 1) mainIconColor else Color.Gray,
+                        tint = if (model.selectedBottomBar.value == 1) MaterialTheme.colorScheme.surfaceTint else Color.Gray,
                         contentDescription = null
                     )
 
@@ -83,7 +83,7 @@ fun BottmBarComp(model: InstagramMainVM) {
                     Icon(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = R.drawable.discover),
-                        tint = if (model.selectedBottomBar.value == 2) mainIconColor else Color.Gray,
+                        tint = if (model.selectedBottomBar.value == 2) MaterialTheme.colorScheme.surfaceTint else Color.Gray,
                         contentDescription = null
                     )
 
@@ -100,7 +100,7 @@ fun BottmBarComp(model: InstagramMainVM) {
                     Icon(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = R.drawable.addpost),
-                        tint = if (model.selectedBottomBar.value == 3) mainIconColor else Color.Gray,
+                        tint = if (model.selectedBottomBar.value == 3) MaterialTheme.colorScheme.surfaceTint else Color.Gray,
                         contentDescription = null
                     )
 
@@ -117,7 +117,7 @@ fun BottmBarComp(model: InstagramMainVM) {
                     Icon(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = R.drawable.like),
-                        tint = if (model.selectedBottomBar.value == 4) mainIconColor else Color.Gray,
+                        tint = if (model.selectedBottomBar.value == 4) MaterialTheme.colorScheme.surfaceTint else Color.Gray,
                         contentDescription = null
                     )
 

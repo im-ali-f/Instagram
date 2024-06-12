@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,9 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.instagram.R
 import com.example.instagram.ui.theme.InstagramTheme
-import com.example.instagram.ui.theme.mainIconColor
 import com.example.instagram.ui.theme.mainSeperatorColor
-import com.example.instagram.ui.theme.topBarColorAlpha
+
 
 @Composable
 fun TopBarComp() {
@@ -35,7 +35,7 @@ fun TopBarComp() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(topBarColorAlpha)
+                .background(MaterialTheme.colorScheme.onPrimary)
                 .padding(top = 5.dp , bottom = 5.dp)
             //.background(Color.Blue)
         ) {
@@ -45,7 +45,7 @@ fun TopBarComp() {
                         painter = painterResource(id = R.drawable.camera_icon),
                         modifier = Modifier.size(26.dp),
                         contentDescription = "topbar Icon",
-                        tint = mainIconColor
+                        tint =MaterialTheme.colorScheme.surfaceTint
                     )
                 }
             }
@@ -56,7 +56,7 @@ fun TopBarComp() {
                     painter = painterResource(id = R.drawable.instagram_logo),
                     modifier = Modifier.size(150.dp, 34.dp),
                     contentDescription = "topbar Icon",
-                    tint = mainIconColor
+                    tint = MaterialTheme.colorScheme.surfaceTint
                 )
             }
 
@@ -68,7 +68,7 @@ fun TopBarComp() {
                             painter = painterResource(id = R.drawable.igtv),
                             modifier = Modifier.size(26.dp),
                             contentDescription = "topbar Icon",
-                            tint = mainIconColor
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
 
@@ -77,7 +77,7 @@ fun TopBarComp() {
                             painter = painterResource(id = R.drawable.messanger),
                             modifier = Modifier.size(26.dp),
                             contentDescription = "topbar Icon",
-                            tint = mainIconColor
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
                 }

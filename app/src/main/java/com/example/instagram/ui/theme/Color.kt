@@ -11,12 +11,40 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 
-val topBarColorAlpha = Color(0x80FAFAFA)
-val mainIconColor = Color(0xFF262626)
+
 val mainSeperatorColor = Color(0x946B6B6B)
-val mainFontColor = Color(0xFF262626)
 val officialColor = Color(0xFF3897F0)
 val pageCountBGCColor = Color(0xB3121212)
 val pageCountFontColor = Color(0xFFF9F9F9)
 val activeDotColor = Color(0xFF3897F0)
-val deActiveDotColor = Color(0x25000000)
+val deActiveDotColor = Color(0xFFA59C9C)
+//login
+val borderColor = Color(0x1A000000)
+val inputPlaceHolderColor = Color(0x33000000)
+val mainBlueColor = Color(0xFF3797EF)
+
+sealed class  ThemeColors(
+    val topBarColorAlpha :Color,
+    val mainIconColor :Color,
+    val mainFontColor :Color,
+    val backgroundColor :Color
+
+){
+    object Night : ThemeColors(
+         topBarColorAlpha = Color(0xFF121212),
+         mainIconColor = Color(0xFFF9F9F9),
+         mainFontColor = Color(0xFFF9F9F9),
+         backgroundColor = Color(0xFF000000),
+
+    )
+
+    object Day : ThemeColors(
+        topBarColorAlpha = Color(0xFFFAFAFA),
+        mainIconColor = Color(0xFF262626),
+        mainFontColor = Color(0xFF262626),
+        backgroundColor = Color(0xFFFFFFFF),
+
+
+    )
+
+}

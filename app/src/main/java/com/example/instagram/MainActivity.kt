@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.homePage.HomeComp
+import com.example.instagram.lsPages.LoginComp
 import com.example.instagram.ui.theme.InstagramTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +31,10 @@ class MainActivity : ComponentActivity() {
                     //val viewModel = MainViewModel(repo)
                     val model = InstagramMainVM()
 
-                    NavHost(navController = navStateBig , startDestination = "homePage" ){
+                    NavHost(navController = navStateBig , startDestination = "loginPage" ){
+                        composable("loginPage"){
+                            LoginComp(navStateBig , model)
+                        }
                         composable("homePage"){
                             HomeComp(navStateBig , model)
                         }

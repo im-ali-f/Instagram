@@ -110,4 +110,11 @@ class InstagramMainVM:ViewModel() {
 
     )
 
+    //login
+    val loginEnteredUsername = mutableStateOf("")
+    val loginEnteredPassword = mutableStateOf("")
+
+
+
+
 }

@@ -1,5 +1,7 @@
 package com.example.instagram.homePage
 
+import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,11 +24,14 @@ import androidx.compose.material.Card
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,11 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.example.instagram.DATA.VMs.InstagramMainVM
-import com.example.instagram.ui.theme.mainFontColor
 import com.example.instagram.R
 import com.example.instagram.ui.theme.activeDotColor
 import com.example.instagram.ui.theme.deActiveDotColor
-import com.example.instagram.ui.theme.mainIconColor
 import com.example.instagram.ui.theme.officialColor
 import com.example.instagram.ui.theme.pageCountBGCColor
 import com.example.instagram.ui.theme.pageCountFontColor
@@ -56,6 +59,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 
@@ -74,15 +79,25 @@ fun PostsComp(model: InstagramMainVM) {
             StorysComp(model)
         }
         items(model.PostsMapList) { post ->
+            var targetValue by remember {
+                mutableStateOf(26)
+            }
+            val clickAnimation by animateIntAsState(targetValue = targetValue , animationSpec = tween(durationMillis = 200))
+            val coroutineScope = rememberCoroutineScope()
 
+            var targetValue2 by remember {
+                mutableStateOf(26)
+            }
+            val clickAnimation2 by animateIntAsState(targetValue = targetValue2 , animationSpec = tween(durationMillis = 200))
+            val coroutineScope2 = rememberCoroutineScope()
             //count post urls
             val imageSlider = post["contentList"] as List<String>
             //val contentSize =postContent.size
 
-            val liked by remember {
+            val liked = remember {
                 mutableStateOf(false)
             }
-            val saved by remember {
+            val saved = remember {
                 mutableStateOf(false)
             }
             val pagerState = rememberPagerState(initialPage = 0)
@@ -111,31 +126,34 @@ fun PostsComp(model: InstagramMainVM) {
                         Column {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(
-                                    text = "im_ali_f",
+                                    text = "${post["name"] as String}",
                                     fontWeight = FontWeight(600),
                                     fontSize = 15.sp,
                                     maxLines = 1,
                                     textAlign = TextAlign.Center,
-                                    color = mainFontColor,
+                                    color = MaterialTheme.colorScheme.tertiary,
                                     overflow = TextOverflow.Ellipsis
 
                                 )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Icon(
-                                    modifier = Modifier.size(12.dp),
-                                    tint = officialColor,
-                                    painter = painterResource(id = R.drawable.official_icon),
-                                    contentDescription = "official icon"
-                                )
+                                if(post["official"] as Boolean){
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Icon(
+                                        modifier = Modifier.size(12.dp),
+                                        tint = officialColor,
+                                        painter = painterResource(id = R.drawable.official_icon),
+                                        contentDescription = "official icon"
+                                    )
+                                }
+
 
                             }
                             Text(
-                                text = "NewYork, America",
+                                text = "${post["place"] as String}",
                                 fontWeight = FontWeight(400),
                                 fontSize = 12.sp,
                                 maxLines = 1,
                                 textAlign = TextAlign.Center,
-                                color = mainFontColor,
+                                color = MaterialTheme.colorScheme.surfaceTint,
                                 overflow = TextOverflow.Ellipsis
 
                             )
@@ -149,7 +167,7 @@ fun PostsComp(model: InstagramMainVM) {
                             painter = painterResource(R.drawable.more_icon),
                             modifier = Modifier.size(16.dp),
                             contentDescription = "moreIcon",
-                            tint = mainIconColor
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
 
@@ -245,13 +263,22 @@ fun PostsComp(model: InstagramMainVM) {
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.align(Alignment.CenterStart)
                         ) {
-                            IconButton(onClick = {}
+                            IconButton(onClick = {
+
+                                coroutineScope.launch {
+                                    targetValue = 24
+                                    delay(100)
+                                    targetValue = 26
+
+                                }
+                                liked.value = ! liked.value
+                            }
                             ) {
                                 Icon(
-                                    painter = painterResource(R.drawable.like),
-                                    modifier = Modifier.size(26.dp),
+                                    painter = painterResource(if(liked.value)R.drawable.fillheart_icon else R.drawable.like),
+                                    modifier = Modifier.size(clickAnimation.dp),
                                     contentDescription = "postIcon",
-                                    tint = mainIconColor
+                                    tint= if(liked.value)Color.Red else MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             IconButton(onClick = {}
@@ -260,7 +287,7 @@ fun PostsComp(model: InstagramMainVM) {
                                     painter = painterResource(R.drawable.comment),
                                     modifier = Modifier.size(26.dp),
                                     contentDescription = "postIcon",
-                                    tint = mainIconColor
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             IconButton(onClick = {}
@@ -269,7 +296,7 @@ fun PostsComp(model: InstagramMainVM) {
                                     painter = painterResource(R.drawable.messanger),
                                     modifier = Modifier.size(26.dp),
                                     contentDescription = "postIcon",
-                                    tint = mainIconColor
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                         }
@@ -297,13 +324,21 @@ fun PostsComp(model: InstagramMainVM) {
                         }
 
                         Box(modifier = Modifier.align(Alignment.CenterEnd)) {
-                            IconButton(onClick = {}
+                            IconButton(onClick = {
+                                coroutineScope2.launch {
+                                    targetValue2 = 24
+                                    delay(100)
+                                    targetValue2 = 26
+
+                                }
+                                saved.value =! saved.value
+                            }
                             ) {
                                 Icon(
-                                    painter = painterResource(R.drawable.save),
-                                    modifier = Modifier.size(26.dp),
+                                    painter = painterResource(if(saved.value) R.drawable.savefill  else R.drawable.save),
+                                    modifier = Modifier.size(clickAnimation2.dp),
                                     contentDescription = "postIcon",
-                                    tint = mainIconColor
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                         }
@@ -332,16 +367,15 @@ fun PostsComp(model: InstagramMainVM) {
                             fontSize = 15.sp,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
-                            color = mainFontColor,
+                            color = MaterialTheme.colorScheme.tertiary,
                         )
-
                         Text(
                             text = "Some_Of_Friends",
                             fontWeight = FontWeight(500),
                             fontSize = 15.sp,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
-                            color = mainFontColor,
+                            color = MaterialTheme.colorScheme.tertiary,
                         )
 
                         Text(
@@ -350,16 +384,16 @@ fun PostsComp(model: InstagramMainVM) {
                             fontSize = 15.sp,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
-                            color = mainFontColor,
+                            color = MaterialTheme.colorScheme.tertiary,
                         )
 
                         Text(
-                            text = "40,332 others",
+                            text = "${post["likeCount"]} others",
                             fontWeight = FontWeight(500),
                             fontSize = 15.sp,
                             maxLines = 1,
                             textAlign = TextAlign.Center,
-                            color = mainFontColor,
+                            color = MaterialTheme.colorScheme.tertiary,
                         )
 
 
@@ -379,22 +413,22 @@ fun PostsComp(model: InstagramMainVM) {
                                     style = SpanStyle(
                                         fontWeight = FontWeight(500),
                                         fontSize = 15.sp,
-                                        color = mainFontColor,
+                                        color = MaterialTheme.colorScheme.tertiary,
                                     )
                                 )
                                 {
-                                    append("im_ali_f ")
+                                    append("${post["name"]} ")
                                 }
 
                                 withStyle(
                                     style = SpanStyle(
                                         fontWeight = FontWeight(400),
                                         fontSize = 15.sp,
-                                        color = mainFontColor,
+                                        color = MaterialTheme.colorScheme.tertiary,
                                     )
                                 )
                                 {
-                                    append("its show time ! kindness or darkness ? they think being kind is weakness of a person !")
+                                    append("${post["text"]}")
                                 }
                             },
 
