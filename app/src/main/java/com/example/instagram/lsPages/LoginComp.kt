@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.IconButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,12 +34,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -92,15 +95,15 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                 onValueChange = { new ->
                     model.loginEnteredUsername.value = new
                 },
-
+                cursorBrush = Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.onTertiary , mainBlueColor)),
                 singleLine = true,
                 maxLines = 1,
-                textStyle = TextStyle(fontSize = 17.sp, lineHeight = 30.sp, fontWeight = FontWeight(500)),
+                textStyle = TextStyle(fontSize = 17.sp, lineHeight = 30.sp, fontWeight = FontWeight(500) , color = MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.onPrimary)
                     .border(width = 0.5.dp, color = borderColor, shape = RoundedCornerShape(5.dp))
-                    .padding(top = 14.dp, bottom = 14.dp, end = 15.dp, start = 15.dp)
+
                 ,
                 interactionSource = interactionSource,
                 keyboardOptions = KeyboardOptions(
@@ -114,6 +117,8 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
+
+
                     ),
                     // value = model.enteredChat.value,
                     value = model.loginEnteredUsername.value,
@@ -125,13 +130,13 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                             text = "Username",
                             fontWeight = FontWeight(500),
                             fontSize = 14.sp,
-                            color = inputPlaceHolderColor
+                            color =  MaterialTheme.colorScheme.onTertiary
 
                         )
                     },
                     visualTransformation = VisualTransformation.None,
                     interactionSource = interactionSource,
-                    contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp), // this is how you can remove the padding
+                    contentPadding = PaddingValues(top = 14.dp, bottom = 14.dp, end = 15.dp, start = 15.dp), // this is how you can remove the padding
                 )
             }
 
@@ -143,21 +148,20 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                 onValueChange = { new ->
                     model.loginEnteredPassword.value = new
                 },
-
+                cursorBrush = Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.onTertiary , mainBlueColor)),
                 singleLine = true,
                 maxLines = 1,
-                textStyle = TextStyle(fontSize = 17.sp, lineHeight = 30.sp, fontWeight = FontWeight(500)),
+                textStyle = TextStyle(fontSize = 17.sp, lineHeight = 30.sp, fontWeight = FontWeight(500), color = MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.onPrimary)
-                    .border(width = 0.5.dp, color = borderColor, shape = RoundedCornerShape(5.dp))
-                    .padding(top = 14.dp, bottom = 14.dp, end = 15.dp, start = 15.dp)
-                ,
+                    .border(width = 0.5.dp, color = borderColor, shape = RoundedCornerShape(5.dp)),
                 interactionSource = interactionSource2,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Default
                 ),
+                visualTransformation = if (model.passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
             ) { innerTextField ->
                 TextFieldDefaults.DecorationBox(
                     colors = TextFieldDefaults.colors(
@@ -166,7 +170,6 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                         unfocusedIndicatorColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent,
                     ),
-                    // value = model.enteredChat.value,
                     value = model.loginEnteredPassword.value,
                     singleLine = true,
                     innerTextField = innerTextField,
@@ -176,13 +179,24 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                             text = "Password",
                             fontWeight = FontWeight(500),
                             fontSize = 14.sp,
-                            color = inputPlaceHolderColor
-
+                            color =  MaterialTheme.colorScheme.onTertiary
                         )
                     },
-                    visualTransformation = VisualTransformation.None,
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            model.passwordVisible.value = !model.passwordVisible.value
+                        }) {
+                            Icon(
+                                painter = painterResource(id = if (model.passwordVisible.value) R.drawable.eye_slash else R.drawable.eye),
+                                modifier = Modifier.size(19.dp),
+                                contentDescription = "Toggle password visibility",
+                                tint = Color.Black
+                            )
+                        }
+                    },
+                    visualTransformation = if (model.passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
                     interactionSource = interactionSource,
-                    contentPadding = PaddingValues(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp), // this is how you can remove the padding
+                    contentPadding = PaddingValues(top = 14.dp, bottom = 14.dp, end = 15.dp, start = 15.dp),
                 )
             }
 
@@ -264,7 +278,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                     Text(
                         textAlign = TextAlign.Center,
                         text = "OR",
-                        color = mainSeperatorColor,
+                        color = MaterialTheme.colorScheme.onTertiary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight(600)
                     )
@@ -283,7 +297,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                     fontWeight = FontWeight(400),
                     fontSize = 14.sp,
                     textAlign = TextAlign.Center,
-                    color = mainSeperatorColor
+                    color = MaterialTheme.colorScheme.onTertiary
                 )
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(
@@ -318,7 +332,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                 text = "Instagram OT Facebook",
                 fontWeight = FontWeight(400),
                 fontSize = 14.sp,
-                color = mainSeperatorColor
+                color = MaterialTheme.colorScheme.onTertiary
 
             )
             Spacer(modifier = Modifier.height(25.dp))

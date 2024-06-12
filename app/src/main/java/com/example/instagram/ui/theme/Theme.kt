@@ -20,6 +20,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = ThemeColors.Night.topBarColorAlpha,
     surfaceTint = ThemeColors.Night.mainIconColor,
     tertiary = ThemeColors.Night.mainFontColor,
+    onTertiary =ThemeColors.Night.secondFontColor ,
     background = ThemeColors.Night.backgroundColor,
 
 
@@ -29,6 +30,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = ThemeColors.Day.topBarColorAlpha,
     surfaceTint = ThemeColors.Day.mainIconColor,
     tertiary = ThemeColors.Day.mainFontColor,
+    onTertiary =ThemeColors.Day.secondFontColor ,
     background = ThemeColors.Day.backgroundColor,
 
 

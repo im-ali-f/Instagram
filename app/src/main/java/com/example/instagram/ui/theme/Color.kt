@@ -27,6 +27,7 @@ sealed class  ThemeColors(
     val topBarColorAlpha :Color,
     val mainIconColor :Color,
     val mainFontColor :Color,
+    val secondFontColor :Color,
     val backgroundColor :Color
 
 ){
@@ -34,6 +35,7 @@ sealed class  ThemeColors(
          topBarColorAlpha = Color(0xFF121212),
          mainIconColor = Color(0xFFF9F9F9),
          mainFontColor = Color(0xFFF9F9F9),
+         secondFontColor = Color(0x99FFFFFF),
          backgroundColor = Color(0xFF000000),
 
     )
@@ -42,6 +44,7 @@ sealed class  ThemeColors(
         topBarColorAlpha = Color(0xFFFAFAFA),
         mainIconColor = Color(0xFF262626),
         mainFontColor = Color(0xFF262626),
+        secondFontColor = Color(0x66000000),
         backgroundColor = Color(0xFFFFFFFF),
 
 
