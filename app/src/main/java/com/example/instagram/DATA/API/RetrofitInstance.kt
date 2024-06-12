@@ -9,8 +9,8 @@ object RetrofitInstance {
     private  val  retrofit by lazy {
         Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
     }
-    val api: WhatsAppApi by lazy {
-        retrofit.create(WhatsAppApi::class.java)
+    val api: InstagramAPI by lazy {
+        retrofit.create(InstagramAPI::class.java)
     }
 
 }

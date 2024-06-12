@@ -1,10 +1,16 @@
 package com.example.instagram.DATA.VMs
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.example.instagram.DATA.models.loginModel.loginBodyModel
 
-class InstagramMainVM:ViewModel() {
+class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController):ViewModel() {
     val selectedBottomBar = mutableStateOf(0)
 
     val StoryListMap = listOf(
@@ -115,6 +121,31 @@ class InstagramMainVM:ViewModel() {
     val loginEnteredPassword = mutableStateOf("")
 
 
+
+    var loggedInUserName = ""
+    var loggedInUserToken = ""
+
+    fun LoginFunctionallity() {
+
+        val bodyToSend = loginBodyModel(username = loginEnteredUsername.value,password = loginEnteredPassword.value)
+        mainViewModel.Login(bodyToSend)
+        mainViewModel.viewModelLoginResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("login --> success", response.body().toString())
+                if(response.body()?.token  != ""){
+                    loggedInUserToken = response.body()?.token.toString()
+                    loggedInUserName = loginEnteredUsername.value
+                    navController.navigate("homePage")
+                }
+
+                mainViewModel.viewModelLoginResponse = MutableLiveData()
+
+            } else {
+                Log.d("login --> error", response.errorBody()?.string() as String)
+            }
+        })
+    }
 
 
 }
