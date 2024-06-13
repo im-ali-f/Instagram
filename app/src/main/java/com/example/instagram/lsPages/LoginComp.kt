@@ -190,7 +190,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                                 painter = painterResource(id = if (model.passwordVisible.value) R.drawable.eye_slash else R.drawable.eye),
                                 modifier = Modifier.size(19.dp),
                                 contentDescription = "Toggle password visibility",
-                                tint = Color.Black
+                                tint = MaterialTheme.colorScheme.surfaceTint
                             )
                         }
                     },
@@ -303,7 +303,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                 Text(
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
-                        .clickable { }
+                        .clickable { navController.navigate("signupPage")}
                         .padding(5.dp)
                     ,
                     text = "Sign up",

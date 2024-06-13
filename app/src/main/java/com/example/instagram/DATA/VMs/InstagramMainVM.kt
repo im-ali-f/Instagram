@@ -1,8 +1,11 @@
 package com.example.instagram.DATA.VMs
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -11,7 +14,21 @@ import androidx.navigation.NavController
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 
-class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController):ViewModel() {
+class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController , context: Context):ViewModel() {
+
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+    fun saveData(key: String, value: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
+    fun getData(key: String, defaultValue: String): String {
+        return sharedPreferences.getString(key, defaultValue) ?: defaultValue
+    }
+
     val selectedBottomBar = mutableStateOf(0)
 
     val StoryListMap = listOf(
@@ -138,6 +155,7 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                 if(response.body()?.token  != ""){
                     loggedInUserToken = response.body()?.token.toString()
                     loggedInUserName = loginEnteredUsername.value
+                    saveData("token", response.body()?.token.toString() )
                     navController.navigate("homePage")
                 }
 
@@ -176,6 +194,30 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         })
     }
 
+   // log out
+
+    fun LogoutFunctionallity(){
+        saveData("token","")
+        loginEnteredUsername.value = ""
+        loginEnteredPassword.value = ""
+        passwordVisible.value = false
+        signupEnteredUsername.value = ""
+        signupEnteredPassword.value = ""
+        signupEnteredEmail.value = ""
+        signupEnteredFullName.value = ""
+        signupPasswordVisible.value = false
+        navController.navigate("loginPage")
+    }
+
+    fun validateToken () :String{
+        val token =getData("token","")
+        if(token == ""){
+            return "signupPage"
+        }
+        else{
+            return "homePage"
+        }
+    }
 
 
 }

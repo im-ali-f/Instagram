@@ -287,7 +287,8 @@ fun SignupComp(navController: NavController, model: InstagramMainVM) {
                                 painter = painterResource(id = if (model.signupPasswordVisible.value) R.drawable.eye_slash else R.drawable.eye),
                                 modifier = Modifier.size(19.dp),
                                 contentDescription = "Toggle password visibility",
-                                tint = Color.Black
+                                tint = MaterialTheme.colorScheme.surfaceTint
+
                             )
                         }
                     },

@@ -1,5 +1,6 @@
 package com.example.instagram.homePage
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,12 +30,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.instagram.R
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.ui.theme.mainSeperatorColor
 
 @Composable
-fun BottmBarComp(model: InstagramMainVM) {
+fun BottmBarComp(model: InstagramMainVM ,navController: NavController, innerNavController: NavController) {
 
     Box(
         Modifier
@@ -51,7 +53,9 @@ fun BottmBarComp(model: InstagramMainVM) {
         )
         //end sep
         Row(
-            Modifier.fillMaxWidth().padding(top = 0.dp, bottom = 10.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 0.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -95,7 +99,10 @@ fun BottmBarComp(model: InstagramMainVM) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 IconButton(
-                    onClick = { model.selectedBottomBar.value = 3 },
+                    onClick = {
+                        model.selectedBottomBar.value = 3
+                        navController.navigate("addPage")
+                              },
                 ) {
                     Icon(
                         modifier = Modifier.size(30.dp),
@@ -133,7 +140,10 @@ fun BottmBarComp(model: InstagramMainVM) {
                         modifier = Modifier
                             .padding(10.dp)
                             .size(30.dp)
-                            .clickable {  }
+                            .clickable {
+                                model.LogoutFunctionallity()
+
+                            }
                             .clip(RoundedCornerShape(100))
 
                             .background(Color.Gray)

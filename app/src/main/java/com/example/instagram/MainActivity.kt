@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,12 +30,14 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navStateBig = rememberNavController()
 
-
+                    val context = LocalContext.current
                     val repo = Repository()
                     val viewModel = MainViewModel(repo)
-                    val model = InstagramMainVM(mainViewModel = viewModel, owner = this, navController = navStateBig)
+                    val model = InstagramMainVM(mainViewModel = viewModel, owner = this, navController = navStateBig , context)
 
-                    NavHost(navController = navStateBig , startDestination = "signupPage" ){
+
+                    val startDestination = model.validateToken()
+                    NavHost(navController = navStateBig , startDestination = startDestination ){
                         composable("signupPage"){
                             SignupComp(navStateBig , model)
                         }
@@ -43,6 +46,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("homePage"){
                             HomeComp(navStateBig , model)
+                        }
+                        composable("addPage"){
+                           // addcomp fun
                         }
                     }
                 }
