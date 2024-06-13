@@ -149,4 +149,12 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
     }
 
 
+    //signup
+    val signupEnteredUsername = mutableStateOf("")
+    val signupEnteredPassword = mutableStateOf("")
+    val signupEnteredEmail = mutableStateOf("")
+    val signupEnteredFullName = mutableStateOf("")
+    val signupPasswordVisible = mutableStateOf(false)
+
+
 }

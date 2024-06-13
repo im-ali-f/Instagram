@@ -17,6 +17,7 @@ import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.DATA.VMs.MainViewModel
 import com.example.instagram.homePage.HomeComp
 import com.example.instagram.lsPages.LoginComp
+import com.example.instagram.lsPages.SignupComp
 import com.example.instagram.ui.theme.InstagramTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,7 +34,10 @@ class MainActivity : ComponentActivity() {
                     val viewModel = MainViewModel(repo)
                     val model = InstagramMainVM(mainViewModel = viewModel, owner = this, navController = navStateBig)
 
-                    NavHost(navController = navStateBig , startDestination = "loginPage" ){
+                    NavHost(navController = navStateBig , startDestination = "signupPage" ){
+                        composable("signupPage"){
+                            SignupComp(navStateBig , model)
+                        }
                         composable("loginPage"){
                             LoginComp(navStateBig , model)
                         }
