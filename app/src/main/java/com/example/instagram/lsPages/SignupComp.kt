@@ -301,7 +301,7 @@ fun SignupComp(navController: NavController, model: InstagramMainVM) {
 
             Button(
                 onClick = {
-                   // model.LoginFunctionallity()
+                    model.SignupFunctionallity()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

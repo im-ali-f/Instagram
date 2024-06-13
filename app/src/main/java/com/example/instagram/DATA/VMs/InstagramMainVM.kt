@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
+import com.example.instagram.DATA.models.signupModel.signupBodyModel
 
 class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController):ViewModel() {
     val selectedBottomBar = mutableStateOf(0)
@@ -155,6 +156,26 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
     val signupEnteredEmail = mutableStateOf("")
     val signupEnteredFullName = mutableStateOf("")
     val signupPasswordVisible = mutableStateOf(false)
+
+    fun SignupFunctionallity() {
+
+        val bodyToSend = signupBodyModel(username = signupEnteredUsername.value , password = signupEnteredPassword.value, email = signupEnteredEmail.value, fullname = signupEnteredFullName.value)
+        mainViewModel.Signup(bodyToSend)
+        mainViewModel.viewModelSignupResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("Signup --> success", response.body().toString())
+
+                navController.navigate("loginPage")
+
+                mainViewModel.viewModelSignupResponse = MutableLiveData()
+
+            } else {
+                Log.d("Signup --> error", response.errorBody()?.string() as String)
+            }
+        })
+    }
+
 
 
 }
