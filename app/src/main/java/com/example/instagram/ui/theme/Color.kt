@@ -28,7 +28,8 @@ sealed class  ThemeColors(
     val mainIconColor :Color,
     val mainFontColor :Color,
     val secondFontColor :Color,
-    val backgroundColor :Color
+    val backgroundColor :Color,
+    val searchBarColor :Color
 
 ){
     object Night : ThemeColors(
@@ -37,6 +38,7 @@ sealed class  ThemeColors(
          mainFontColor = Color(0xFFF9F9F9),
          secondFontColor = Color(0x99FFFFFF),
          backgroundColor = Color(0xFF000000),
+         searchBarColor = Color(0xFF262626),
 
     )
 
@@ -46,6 +48,8 @@ sealed class  ThemeColors(
         mainFontColor = Color(0xFF262626),
         secondFontColor = Color(0x66000000),
         backgroundColor = Color(0xFFFFFFFF),
+        searchBarColor = Color(0x33767680),
+
 
 
     )

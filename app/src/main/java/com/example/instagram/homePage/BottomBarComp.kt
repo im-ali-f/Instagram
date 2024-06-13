@@ -64,7 +64,10 @@ fun BottmBarComp(model: InstagramMainVM ,navController: NavController, innerNavC
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 IconButton(
-                    onClick = { model.selectedBottomBar.value = 1 },
+                    onClick = {
+                        model.selectedBottomBar.value = 1
+                        innerNavController.navigate("homePart")
+                              },
                 ) {
                     Icon(
                         modifier = Modifier.size(30.dp),
@@ -82,7 +85,11 @@ fun BottmBarComp(model: InstagramMainVM ,navController: NavController, innerNavC
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 IconButton(
-                    onClick = { model.selectedBottomBar.value = 2 },
+                    onClick = {
+                        innerNavController.navigate("discoverPart")
+                        model.selectedBottomBar.value = 2
+
+                              },
                 ) {
                     Icon(
                         modifier = Modifier.size(30.dp),

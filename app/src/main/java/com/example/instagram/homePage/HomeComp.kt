@@ -11,6 +11,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -18,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.instagram.homePage.BottmBarComp
 import com.example.instagram.DATA.VMs.InstagramMainVM
+import com.example.instagram.discoverPage.DiscoverComp
 import com.example.instagram.homePage.TopBarComp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -26,14 +30,30 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
 
     val innerNavState= rememberNavController()
 
+    val showBottomBar = remember {
+        mutableStateOf(true)
+    }
+
+    val showTopBar = remember {
+        mutableStateOf(true)
+    }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBarComp()
+            if(showTopBar.value){
+                TopBarComp()
+            }
+
         },
         bottomBar = {
-            BottmBarComp(model = model , navController =navController, innerNavController = innerNavState)
-        }
+            if(showBottomBar.value) {
+                BottmBarComp(
+                    model = model,
+                    navController = navController,
+                    innerNavController = innerNavState
+                )
+            }
+            }
 
     ) {
         Column(
@@ -41,10 +61,18 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            NavHost(navController =innerNavState , startDestination = "homePart"){
+            NavHost(navController =innerNavState , startDestination = "discoverPart"){
                 composable("homePart"){
                     model.selectedBottomBar.value =1
+                    showTopBar.value = true
+                    showBottomBar.value = true
                     PostsComp(model)
+                }
+                composable("discoverPart"){
+                    model.selectedBottomBar.value =2
+                    DiscoverComp(model = model,navController = navController)
+                    showTopBar.value = false
+                    showBottomBar.value = true
                 }
 
             }

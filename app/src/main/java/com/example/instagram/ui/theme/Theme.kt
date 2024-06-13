@@ -22,6 +22,7 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = ThemeColors.Night.mainFontColor,
     onTertiary =ThemeColors.Night.secondFontColor ,
     background = ThemeColors.Night.backgroundColor,
+    primaryContainer = ThemeColors.Night.searchBarColor
 
 
 )
@@ -32,6 +33,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = ThemeColors.Day.mainFontColor,
     onTertiary =ThemeColors.Day.secondFontColor ,
     background = ThemeColors.Day.backgroundColor,
+    primaryContainer = ThemeColors.Day.searchBarColor
 
 
     )
