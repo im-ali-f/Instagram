@@ -43,6 +43,7 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
         ) {
             NavHost(navController =innerNavState , startDestination = "homePart"){
                 composable("homePart"){
+                    model.selectedBottomBar.value =1
                     PostsComp(model)
                 }
 

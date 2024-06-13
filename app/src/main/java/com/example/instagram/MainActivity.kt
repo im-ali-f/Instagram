@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.instagram.DATA.API.Repository
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.DATA.VMs.MainViewModel
+import com.example.instagram.addPage.AddComp
 import com.example.instagram.homePage.HomeComp
 import com.example.instagram.lsPages.LoginComp
 import com.example.instagram.lsPages.SignupComp
@@ -36,7 +37,8 @@ class MainActivity : ComponentActivity() {
                     val model = InstagramMainVM(mainViewModel = viewModel, owner = this, navController = navStateBig , context)
 
 
-                    val startDestination = model.validateToken()
+                    //val startDestination = model.validateToken()
+                    val startDestination = "addPage"
                     NavHost(navController = navStateBig , startDestination = startDestination ){
                         composable("signupPage"){
                             SignupComp(navStateBig , model)
@@ -48,7 +50,7 @@ class MainActivity : ComponentActivity() {
                             HomeComp(navStateBig , model)
                         }
                         composable("addPage"){
-                           // addcomp fun
+                           AddComp(navController = navStateBig , model = model)
                         }
                     }
                 }
