@@ -84,7 +84,7 @@ fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
 
                 Button(
                     onClick = {
-
+                        model.GetUserInfoFunctionallity()
                     },
                     modifier = Modifier
                         .clip(RoundedCornerShape(5.dp)),

@@ -5,6 +5,7 @@ import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
+import com.example.instagram.DATA.models.userModel.userResponseModel
 import retrofit2.Response
 
 class Repository {
@@ -16,6 +17,11 @@ class Repository {
     suspend fun Signup(body:signupBodyModel): Response<signupResponseModel> {
 
         return RetrofitInstance.api.Signup(body)
+    }
+
+    suspend fun GetUserInfo(tokenUser :String , username:String): Response<userResponseModel> {
+
+        return RetrofitInstance.api.GetUserInfo(tokenUser = tokenUser, username = username)
     }
 
 /*

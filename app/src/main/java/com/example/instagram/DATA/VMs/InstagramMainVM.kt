@@ -219,5 +219,24 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         }
     }
 
+//get userInfo
 
+    fun GetUserInfoFunctionallity() {
+
+        val tokenToSend = getData("token", "")
+        mainViewModel.GetUserInfo("JWT $tokenToSend" , "aaa")
+        mainViewModel.viewModelGetUserInfoResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("GetUserInfo --> success", response.body().toString())
+
+                //todo: neshon bedim ke follow shode user ma
+
+                mainViewModel.viewModelGetUserInfoResponse = MutableLiveData()
+
+            } else {
+                Log.d("GetUserInfo --> error", response.errorBody()?.string() as String)
+            }
+        })
+    }
 }

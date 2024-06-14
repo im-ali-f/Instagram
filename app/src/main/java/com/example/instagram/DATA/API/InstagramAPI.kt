@@ -4,9 +4,14 @@ import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
+import com.example.instagram.DATA.models.userModel.userResponseModel
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface InstagramAPI {
@@ -19,6 +24,12 @@ interface InstagramAPI {
     suspend fun Signup(
         @Body userInfoResponseListItem: signupBodyModel
     ):Response<signupResponseModel>
+
+    @GET("users/{username}/")
+    suspend fun GetUserInfo(
+        @Path("username")username: String,
+        @Header("Authorization") tokenUser:String
+    ):Response<userResponseModel>
 
     /*
     @GET("user")
