@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -83,9 +84,9 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
                 val interactionSource2 = remember { MutableInteractionSource() }
 
                 BasicTextField(
-                    value = model.loginEnteredPassword.value,
+                    value = model.discoverEnteredSearch.value,
                     onValueChange = { new ->
-                        model.loginEnteredPassword.value = new
+                        model.discoverEnteredSearch.value = new
                     },
                     cursorBrush = Brush.horizontalGradient(
                         listOf(
@@ -101,6 +102,7 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
                         fontWeight = FontWeight(500),
                         color = MaterialTheme.colorScheme.tertiary
                     ),
+                    keyboardActions = KeyboardActions(onDone = {model.GetUserInfoFunctionallity()}),
                     modifier = Modifier
                         .fillMaxWidth(),
                     // .border(width = 0.5.dp, color = borderColor, shape = RoundedCornerShape(5.dp))
@@ -118,7 +120,7 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
                             unfocusedIndicatorColor = Color.Transparent,
                             unfocusedContainerColor = Color.Transparent,
                         ),
-                        value = model.loginEnteredPassword.value,
+                        value = model.discoverEnteredSearch.value,
                         singleLine = true,
                         innerTextField = innerTextField,
                         enabled = true,

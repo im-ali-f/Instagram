@@ -1,5 +1,6 @@
 package com.example.instagram.DATA.API
 
+import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
@@ -30,6 +31,13 @@ interface InstagramAPI {
         @Path("username")username: String,
         @Header("Authorization") tokenUser:String
     ):Response<userResponseModel>
+
+    @GET("users/{username}/follow/")
+    suspend fun FollowUser(
+        @Path("username")username: String,
+        @Header("Authorization") tokenUser:String
+    ):Response<followResponseModel>
+
 
     /*
     @GET("user")

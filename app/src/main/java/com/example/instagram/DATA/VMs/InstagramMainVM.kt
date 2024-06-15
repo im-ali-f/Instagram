@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
+import com.example.instagram.DATA.models.userModel.userResponseModel
 
 class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController , context: Context):ViewModel() {
 
@@ -219,18 +220,20 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         }
     }
 
-//get userInfo
+    //Discover
+    val discoverEnteredSearch = mutableStateOf("")
+    val foundedUser = mutableStateOf(userResponseModel(username = "", fullname = "", id = 0, bio = "", followed_by_req_user = false, number_of_followers = 0, number_of_following = 0, user_posts = emptyList(), number_of_posts = 0, profile_pic = ""))
 
     fun GetUserInfoFunctionallity() {
 
         val tokenToSend = getData("token", "")
-        mainViewModel.GetUserInfo("JWT $tokenToSend" , "aaa")
+        mainViewModel.GetUserInfo("JWT $tokenToSend" , discoverEnteredSearch.value)
         mainViewModel.viewModelGetUserInfoResponse.observe(owner, Observer { response ->
             if (response.isSuccessful) {
 
                 Log.d("GetUserInfo --> success", response.body().toString())
 
-                //todo: neshon bedim ke follow shode user ma
+                foundedUser.value = response.body() as userResponseModel
 
                 mainViewModel.viewModelGetUserInfoResponse = MutableLiveData()
 
@@ -239,4 +242,25 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
             }
         })
     }
+
+    fun FollowUserFunctionallity() {
+
+        val tokenToSend = getData("token", "")
+        mainViewModel.FollowUser("JWT $tokenToSend" , discoverEnteredSearch.value)
+        mainViewModel.viewModelFollowUserResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("FollowUser --> success", response.body().toString())
+                val tempObj = foundedUser.value
+                tempObj.followed_by_req_user = true
+                foundedUser.value = tempObj
+
+                mainViewModel.viewModelFollowUserResponse = MutableLiveData()
+
+            } else {
+                Log.d("FollowUser --> error", response.errorBody()?.string() as String)
+            }
+        })
+    }
+
 }

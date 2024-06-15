@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.instagram.DATA.API.Repository
+import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
@@ -51,6 +52,19 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                 viewModelGetUserInfoResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetUserInfo mainVM --> Error", "${e.message} ")
+            }
+
+        }
+    }
+
+    var viewModelFollowUserResponse: MutableLiveData<Response<followResponseModel>> = MutableLiveData()
+    fun FollowUser(tokenUser:String , username :String) {
+        viewModelScope.launch { //kotlin coroutines
+            try {
+                val response: Response<followResponseModel> = repository.FollowUser(tokenUser , username =username )
+                viewModelFollowUserResponse.value = response
+            } catch (e: Exception) {
+                Log.d("FollowUser mainVM --> Error", "${e.message} ")
             }
 
         }

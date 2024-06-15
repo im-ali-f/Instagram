@@ -2,6 +2,7 @@ package com.example.instagram.discoverPage
 
 import android.annotation.SuppressLint
 import android.widget.Space
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,67 +49,69 @@ fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            //for test
 
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row (verticalAlignment = Alignment.CenterVertically){
-                    Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(RoundedCornerShape(100))
-                            .background(Color.LightGray)
-                    )
-                    Spacer(modifier = Modifier.width(15.dp))
-                    Column {
-                        Text(
-                            text = "im_ali_f",
-                            fontWeight = FontWeight(600),
-                            fontSize = 16.sp,
-                            color =  MaterialTheme.colorScheme.onTertiary
+            if(model.foundedUser.value.id != 0){
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row (verticalAlignment = Alignment.CenterVertically){
+                        Box(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(RoundedCornerShape(100))
+                                .background(Color.LightGray)
                         )
+                        Spacer(modifier = Modifier.width(15.dp))
+                        Column {
+                            Text(
+                                text = "${model.foundedUser.value.username}",
+                                fontWeight = FontWeight(600),
+                                fontSize = 16.sp,
+                                color =  MaterialTheme.colorScheme.onTertiary
+                            )
+                            Text(
+                                text = "${model.foundedUser.value.fullname}",
+                                fontWeight = FontWeight(400),
+                                fontSize = 13.sp,
+                                color =  MaterialTheme.colorScheme.onTertiary
+                            )
+                        }
+
+                    }
+
+                    Button(
+                        onClick = {
+                            if(!model.foundedUser.value.followed_by_req_user){
+                                //todo: inja biad follow kone
+                            }
+                        },
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(5.dp)),
+                        contentPadding = if(model.foundedUser.value.followed_by_req_user) PaddingValues(start = 16.dp , end = 16.dp , top = 0.dp , bottom =  0.dp)else PaddingValues(start = 25.dp , end = 25.dp , top = 0.dp , bottom =  0.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        border = if(model.foundedUser.value.followed_by_req_user) BorderStroke(0.7.dp , MaterialTheme.colorScheme.onTertiary) else null,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if(model.foundedUser.value.followed_by_req_user) Color.Transparent else mainBlueColor ,
+                        ),
+
+                        ) {
                         Text(
-                            text = "Ali Farhad",
-                            fontWeight = FontWeight(400),
-                            fontSize = 13.sp,
-                            color =  MaterialTheme.colorScheme.onTertiary
+                            // modifier = Modifier.background(Color.Blue),
+                            textAlign = TextAlign.Center,
+                            text = if(model.foundedUser.value.followed_by_req_user) "Followed" else "Follow",
+                            color = MaterialTheme.colorScheme.tertiary,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight(600)
                         )
                     }
 
+
                 }
-
-                Button(
-                    onClick = {
-                        model.GetUserInfoFunctionallity()
-                    },
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(5.dp)),
-                    contentPadding = PaddingValues(start = 25.dp , end = 25.dp , top = 0.dp , bottom =  0.dp),
-                    shape = RoundedCornerShape(5.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = mainBlueColor
-                    ),
-
-                ) {
-                    Text(
-                       // modifier = Modifier.background(Color.Blue),
-                        textAlign = TextAlign.Center,
-                        text = "Follow",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight(600)
-                    )
-                }
-
-
             }
-
-            //end for test
         }
     }
 }

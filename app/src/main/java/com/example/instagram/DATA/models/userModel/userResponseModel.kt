@@ -2,7 +2,7 @@ package com.example.instagram.DATA.models.userModel
 
 data class userResponseModel(
     val bio: String,
-    val followed_by_req_user: Boolean,
+    var followed_by_req_user: Boolean,
     val fullname: String,
     val id: Int,
     val number_of_followers: Int,

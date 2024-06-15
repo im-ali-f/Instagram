@@ -1,6 +1,7 @@
 package com.example.instagram.DATA.API
 
 
+import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
@@ -22,6 +23,11 @@ class Repository {
     suspend fun GetUserInfo(tokenUser :String , username:String): Response<userResponseModel> {
 
         return RetrofitInstance.api.GetUserInfo(tokenUser = tokenUser, username = username)
+    }
+
+    suspend fun FollowUser(tokenUser :String , username:String): Response<followResponseModel> {
+
+        return RetrofitInstance.api.FollowUser(tokenUser = tokenUser, username = username)
     }
 
 /*
