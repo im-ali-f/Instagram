@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
+import com.example.instagram.R
 
 class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController , context: Context):ViewModel() {
 
@@ -265,5 +266,58 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
             }
         })
     }
+
+    val monkeyList = listOf(
+        R.drawable.m1,
+        R.drawable.m2,
+        R.drawable.m14,
+        R.drawable.m3,
+        R.drawable.m16,
+        R.drawable.m4,
+        R.drawable.m5,
+        R.drawable.m6,
+        R.drawable.m7,
+        R.drawable.m8,
+        R.drawable.m9,
+        R.drawable.m10,
+        R.drawable.m11,
+        R.drawable.m12,
+        R.drawable.m13,
+        R.drawable.m15,
+        R.drawable.m16,
+        R.drawable.m1,
+        R.drawable.m2,
+        R.drawable.m3,
+        R.drawable.m4,
+        R.drawable.m5,
+        R.drawable.m6,
+        R.drawable.m7,
+        R.drawable.m8,
+        R.drawable.m9,
+        R.drawable.m10,
+        R.drawable.m11,
+        R.drawable.m12,
+        R.drawable.m16,
+        R.drawable.m13,
+        R.drawable.m14,
+        R.drawable.m15,
+        R.drawable.m1,
+        R.drawable.m2,
+        R.drawable.m3,
+        R.drawable.m4,
+        R.drawable.m5,
+        R.drawable.m14,
+        R.drawable.m6,
+        R.drawable.m7,
+        R.drawable.m8,
+        R.drawable.m9,
+        R.drawable.m10,
+        R.drawable.m11,
+        R.drawable.m12,
+        R.drawable.m13,
+        R.drawable.m15,
+        R.drawable.m16,
+
+    )
 
 }
