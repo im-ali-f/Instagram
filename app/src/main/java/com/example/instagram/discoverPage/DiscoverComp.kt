@@ -85,9 +85,7 @@ fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
 
                     Button(
                         onClick = {
-                            if(!model.foundedUser.value.followed_by_req_user){
-                                //todo: inja biad follow kone
-                            }
+                                model.FollowUserFunctionallity(model.foundedUser.value.username)
                         },
                         modifier = Modifier
                             .clip(RoundedCornerShape(5.dp)),

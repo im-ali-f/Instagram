@@ -239,20 +239,23 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
 
             } else {
                 Log.d("GetUserInfo --> error", response.errorBody()?.string() as String)
+                foundedUser.value = userResponseModel(username = "", fullname = "", id = 0, bio = "", followed_by_req_user = false, number_of_followers = 0, number_of_following = 0, user_posts = emptyList(), number_of_posts = 0, profile_pic = "")
+
             }
         })
     }
 
-    fun FollowUserFunctionallity() {
+    fun FollowUserFunctionallity(username : String) {
 
         val tokenToSend = getData("token", "")
-        mainViewModel.FollowUser("JWT $tokenToSend" , discoverEnteredSearch.value)
+        mainViewModel.FollowUser("JWT $tokenToSend" , username)
         mainViewModel.viewModelFollowUserResponse.observe(owner, Observer { response ->
             if (response.isSuccessful) {
 
                 Log.d("FollowUser --> success", response.body().toString())
                 val tempObj = foundedUser.value
-                tempObj.followed_by_req_user = true
+                tempObj.followed_by_req_user =  !tempObj.followed_by_req_user
+                foundedUser.value = userResponseModel(username = "", fullname = "", id = 0, bio = "", followed_by_req_user = false, number_of_followers = 0, number_of_following = 0, user_posts = emptyList(), number_of_posts = 0, profile_pic = "")
                 foundedUser.value = tempObj
 
                 mainViewModel.viewModelFollowUserResponse = MutableLiveData()
