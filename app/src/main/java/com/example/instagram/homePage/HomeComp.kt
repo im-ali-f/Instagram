@@ -61,7 +61,7 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            NavHost(navController =innerNavState , startDestination = "discoverPart"){
+            NavHost(navController =innerNavState , startDestination = "homePart"){
                 composable("homePart"){
                     model.selectedBottomBar.value =1
                     showTopBar.value = true

@@ -319,5 +319,8 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         R.drawable.m16,
 
     )
+    val focusedOnSearchBar = mutableStateOf(false)
+
+    val SelectedBottomBarAdd = mutableStateOf(1)
 
 }

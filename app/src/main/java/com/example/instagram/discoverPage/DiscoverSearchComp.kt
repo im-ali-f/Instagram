@@ -32,8 +32,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,7 +54,11 @@ import com.example.instagram.ui.theme.mainBlueColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiscoverSearchComp(model: InstagramMainVM) {
+fun DiscoverSearchComp(
+    model: InstagramMainVM,
+    focusManager: FocusManager,
+    keyboardController: SoftwareKeyboardController?
+) {
     Column(Modifier.fillMaxWidth()) {
         Row(
             Modifier
@@ -87,6 +95,7 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
                     value = model.discoverEnteredSearch.value,
                     onValueChange = { new ->
                         model.discoverEnteredSearch.value = new
+                        model.GetUserInfoFunctionallity()
                     },
                     cursorBrush = Brush.horizontalGradient(
                         listOf(
@@ -102,9 +111,31 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
                         fontWeight = FontWeight(500),
                         color = MaterialTheme.colorScheme.tertiary
                     ),
-                    keyboardActions = KeyboardActions(onDone = {model.GetUserInfoFunctionallity()}),
+                    keyboardActions = KeyboardActions(onDone = {
+                        model.GetUserInfoFunctionallity()
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+
+                    }),
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .onFocusEvent {
+                            if (it.isFocused) {
+                                model.focusedOnSearchBar.value = true
+                            }
+                        }
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                model.focusedOnSearchBar.value = true
+                            } else if (model.discoverEnteredSearch.value != "") {
+                                model.focusedOnSearchBar.value = true
+
+                            } else {
+                                model.focusedOnSearchBar.value = false
+
+                            }
+                        },
+
                     // .border(width = 0.5.dp, color = borderColor, shape = RoundedCornerShape(5.dp))
                     interactionSource = interactionSource2,
                     keyboardOptions = KeyboardOptions(
@@ -168,7 +199,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 
@@ -196,7 +231,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 
@@ -224,7 +263,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 
@@ -246,7 +289,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 
@@ -267,7 +314,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 
@@ -289,7 +340,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 
@@ -310,7 +365,11 @@ fun DiscoverSearchComp(model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(6.dp))
-                    .border(width = 1.dp, color = MaterialTheme.colorScheme.primaryContainer , shape = RoundedCornerShape(6.dp))
+                    .border(
+                        width = 1.dp,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(6.dp)
+                    )
                     .clickable { }
                     .padding(8.dp)
 

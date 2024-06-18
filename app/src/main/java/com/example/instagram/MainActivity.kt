@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
 
                     //val startDestination = model.validateToken()
-                    val startDestination = "homePage"
+                    val startDestination = "addPage"
                     NavHost(navController = navStateBig , startDestination = startDestination ){
                         composable("signupPage"){
                             SignupComp(navStateBig , model)

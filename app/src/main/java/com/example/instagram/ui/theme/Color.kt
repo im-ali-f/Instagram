@@ -22,6 +22,10 @@ val deActiveDotColor = Color(0xFFA59C9C)
 val borderColor = Color(0x1A000000)
 val inputPlaceHolderColor = Color(0x33000000)
 val mainBlueColor = Color(0xFF3797EF)
+//addPage
+val addManagerCircleBGC = Color(0x99121212)
+
+
 
 sealed class  ThemeColors(
     val topBarColorAlpha :Color,
