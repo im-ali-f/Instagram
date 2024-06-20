@@ -1,6 +1,5 @@
 package com.example.instagram.addPage
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,11 +25,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.instagram.ui.theme.mainBlueColor
 import com.example.instagram.R
+import com.example.instagram.ui.theme.mainBlueColor
 
 @Composable
-fun TopBarAddComp(navController: NavController) {
+fun TopBarlocDesComp(navController: NavController) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         Row(
             Modifier
@@ -67,20 +66,6 @@ fun TopBarAddComp(navController: NavController) {
         }
 
 
-        Row(modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .clickable { }
-            .padding(5.dp),verticalAlignment = Alignment.CenterVertically){
-            Text(
-                text = "Recents",
-                fontWeight = FontWeight(600),
-                fontSize = 17.sp,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.tertiary
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Icon(painter = painterResource(id = R.drawable.arrowdown) , modifier = Modifier.size(12.dp, 8.dp).offset(y=2.dp), contentDescription = "addPage icon" )
-        }
     }
 
 }

@@ -1,10 +1,12 @@
 package com.example.instagram
 
 import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -21,6 +23,7 @@ import com.example.instagram.DATA.API.Repository
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.DATA.VMs.MainViewModel
 import com.example.instagram.addPage.AddComp
+import com.example.instagram.addPage.locDesComp
 import com.example.instagram.homePage.HomeComp
 import com.example.instagram.lsPages.LoginComp
 import com.example.instagram.lsPages.SignupComp
@@ -30,6 +33,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +64,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("addPage"){
                            AddComp(navController = navStateBig , model = model)
+                        }
+                        composable("locDesPage"){
+                            locDesComp(navController = navStateBig , model = model)
                         }
                     }
                 }
