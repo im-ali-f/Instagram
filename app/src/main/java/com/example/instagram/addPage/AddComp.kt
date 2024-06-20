@@ -34,8 +34,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -93,8 +97,6 @@ fun AddComp(navController: NavController, model: InstagramMainVM) {
         bottomBar = {
             BottomBarAddComp(model)
         }
-
-
     ) {
         Column(
             Modifier
@@ -104,19 +106,19 @@ fun AddComp(navController: NavController, model: InstagramMainVM) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
+                    .fillMaxHeight(0.65f)
                     .background(Color.LightGray)
             ) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-                    // THE image
+                    // Display the selected image
                     Image(
-                        painter = painterResource(id = R.drawable.m4),
+                        painter = rememberImagePainter(model.selectedImage.value),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop,
-                        contentDescription = "monkey Image"
+                        contentDescription = "Selected Image"
                     )
 
-                    //image manager (not working
+                    // Image manager (not working)
                     Row(
                         Modifier
                             .fillMaxWidth()
@@ -124,96 +126,91 @@ fun AddComp(navController: NavController, model: InstagramMainVM) {
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.End
                     ) {
-
-                        Box(
-                            modifier = Modifier
-                                .size(35.dp)
-                                .clip(RoundedCornerShape(100))
-                                .clickable { }
-                                .background(addManagerCircleBGC),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.infinite),
-                                modifier = Modifier.fillMaxSize(0.65f),
-                                tint = Color.White,
-                                contentDescription = "add page icon"
-                            )
-                        }
+                        ManagerIconButton(
+                            iconRes = R.drawable.infinite,
+                            onClick = {}
+                        )
                         Spacer(modifier = Modifier.width(10.dp))
-                        Box(
-                            modifier = Modifier
-                                .size(35.dp)
-                                .clip(RoundedCornerShape(100))
-                                .clickable { }
-                                .background(addManagerCircleBGC),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.combine),
-                                modifier = Modifier.fillMaxSize(0.65f),
-                                tint = Color.White,
-                                contentDescription = "add page icon"
-                            )
-                        }
+                        ManagerIconButton(
+                            iconRes = R.drawable.combine,
+                            onClick = {}
+                        )
                         Spacer(modifier = Modifier.width(10.dp))
-
-                        Row(
-                            modifier = Modifier
-                                .height(35.dp)
-                                .clip(RoundedCornerShape(100))
-                                .clickable { }
-                                .background(addManagerCircleBGC)
-                                .padding(start = 13.dp, end = 13.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.multiple),
-                                modifier = Modifier.size(24.dp),
-                                tint = Color.White,
-                                contentDescription = "add page icon"
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = "SELECT MULTIPLE",
-                                fontWeight = FontWeight(600),
-                                fontSize = 12.sp,
-                                textAlign = TextAlign.Center,
-                                color = Color.White
-                            )
-                        }
-
-
+                        SelectMultipleButton(
+                            onClick = {}
+                        )
                     }
                 }
             }
 
             Box(modifier = Modifier.fillMaxSize()) {
-
-                MyApp()
-
+                ImageBoxScreen(model)
             }
         }
-
-
     }
+}
 
+@Composable
+fun ManagerIconButton(iconRes: Int, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .size(35.dp)
+            .clip(RoundedCornerShape(100))
+            .clickable { onClick() }
+            .background(addManagerCircleBGC),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(id = iconRes),
+            modifier = Modifier.fillMaxSize(0.65f),
+            tint = Color.White,
+            contentDescription = "Manager icon"
+        )
+    }
+}
+
+@Composable
+fun SelectMultipleButton(onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .height(35.dp)
+            .clip(RoundedCornerShape(100))
+            .clickable { onClick() }
+            .background(addManagerCircleBGC)
+            .padding(start = 13.dp, end = 13.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.multiple),
+            modifier = Modifier.size(24.dp),
+            tint = Color.White,
+            contentDescription = "Select multiple"
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = "SELECT MULTIPLE",
+            fontWeight = FontWeight(600),
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            color = Color.White
+        )
+    }
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun MyApp() {
+fun ImageBoxScreen(model: InstagramMainVM) {
     val readPermissionState = rememberPermissionState(Manifest.permission.READ_EXTERNAL_STORAGE)
     val readPermissionState2 = rememberPermissionState(Manifest.permission.READ_MEDIA_IMAGES)
     val context = LocalContext.current
+    var images by remember { mutableStateOf<List<Uri>>(emptyList()) }
 
     LaunchedEffect(Unit) {
-        // Check if the permissions are granted
         if (readPermissionState.status.isGranted || readPermissionState2.status.isGranted) {
             Log.d("Permission", "Granted")
+            images = model.fetchGalleryImages(context)
         } else {
-            // Request the permissions
             Log.d("Permission", "Not Granted")
             readPermissionState2.launchPermissionRequest()
             readPermissionState.launchPermissionRequest()
@@ -221,45 +218,37 @@ fun MyApp() {
     }
 
     if (readPermissionState.status.isGranted || readPermissionState2.status.isGranted) {
-        val images = fetchGalleryImages(context)
-        GalleryBox(images = images)
+        GalleryBox(images = images, model)
     } else {
         Log.d("Permission", "Permission not granted. Can't fetch images.")
     }
 }
 
-fun fetchGalleryImages(context: Context): List<Uri> {
-    val images = mutableListOf<Uri>()
-    val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-    val projection = arrayOf(MediaStore.Images.Media._ID)
-    val cursor = context.contentResolver.query(uri, projection, null, null, null)
-    cursor?.use {
-        val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-        while (it.moveToNext()) {
-            val id = it.getLong(idColumn)
-            val contentUri = ContentUris.withAppendedId(uri, id)
-            images.add(contentUri)
-        }
-    }
-    return images
-}
-
 @Composable
-fun GalleryBox(images: List<Uri>) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn {
+fun GalleryBox(images: List<Uri>, model: InstagramMainVM) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(4),
+        modifier = Modifier.fillMaxSize(),
+        content = {
             items(images) { imageUri ->
-                Image(
-                    painter = rememberImagePainter(imageUri),
-                    contentDescription = null,
+                Card(
+                    backgroundColor = Color.LightGray,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .padding(8.dp)
-                )
+                        .padding(0.5.dp)
+                        .clickable { model.selectedImage.value = imageUri }
+                        .fillMaxWidth(),
+                ) {
+                    Image(
+                        painter = rememberImagePainter(imageUri),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .size(100.dp)
+                    )
+                }
             }
         }
-    }
+    )
 }
-
 

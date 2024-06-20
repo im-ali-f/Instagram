@@ -1,7 +1,10 @@
 package com.example.instagram.DATA.VMs
 
+import android.content.ContentUris
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
@@ -322,5 +325,28 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
     val focusedOnSearchBar = mutableStateOf(false)
 
     val SelectedBottomBarAdd = mutableStateOf(1)
+
+
+    //addPage
+    val selectedImage = mutableStateOf<Uri?>(null)
+
+
+    fun fetchGalleryImages(context: Context): List<Uri> {
+        val images = mutableListOf<Uri>()
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(MediaStore.Images.Media._ID)
+        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            val idColumn = it.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            while (it.moveToNext()) {
+                val id = it.getLong(idColumn)
+                val contentUri = ContentUris.withAppendedId(uri, id)
+                images.add(contentUri)
+            }
+        }
+        selectedImage.value = images.first()
+        return images
+    }
+
 
 }
