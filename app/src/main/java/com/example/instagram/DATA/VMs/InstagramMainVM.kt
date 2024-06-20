@@ -361,6 +361,7 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
     //location description
     val enteredLocation = mutableStateOf("")
     val enteredDescription = mutableStateOf("")
+    val showLoadingAddPost = mutableStateOf(false)
 
 
 
@@ -384,18 +385,24 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                     text = descriptionPart,
                     location = locationPart
                 )
+                showLoadingAddPost.value = true
                 mainViewModel.viewModelCreatePostResponse.observe(owner, Observer { response ->
                     if (response.isSuccessful) {
 
                         Log.d("AddPost --> success", response.body().toString())
 
                         mainViewModel.viewModelCreatePostResponse = MutableLiveData()
+                        navController.navigate("homePage")
+                        enteredDescription.value = ""
+                        enteredLocation.value = ""
+                        selectedImage.value = null
+                        showLoadingAddPost.value = false
 
                     } else {
                         Log.d("AddPost --> error", response.errorBody()?.string() as String)
+                        showLoadingAddPost.value = false
                     }
                 })
-
 
             }
         }

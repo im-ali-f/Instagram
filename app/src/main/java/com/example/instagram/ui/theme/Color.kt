@@ -24,6 +24,7 @@ val inputPlaceHolderColor = Color(0x33000000)
 val mainBlueColor = Color(0xFF3797EF)
 //addPage
 val addManagerCircleBGC = Color(0x99121212)
+val locDesLoadingBGC = Color(0x65D6D0D0)
 
 
 

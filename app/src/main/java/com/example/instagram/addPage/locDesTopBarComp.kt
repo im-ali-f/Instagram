@@ -56,8 +56,6 @@ import kotlin.math.log
 fun TopBarlocDesComp(
     navController: NavController,
     model: InstagramMainVM,
-    description: String,
-    location: String
 ) {
     val context = LocalContext.current
 
