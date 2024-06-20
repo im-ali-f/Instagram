@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -110,4 +111,15 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager:0.28.0")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
+
+
+    //coil not using
+    implementation ("io.coil-kt:coil-compose:2.6.0")
+
+    //permision
+    implementation ("com.google.accompanist:accompanist-permissions:0.24.13-rc")
+
+
+
+
 }

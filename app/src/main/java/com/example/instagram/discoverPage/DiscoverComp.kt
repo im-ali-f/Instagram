@@ -174,7 +174,7 @@ fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
                                     // modifier = Modifier.background(Color.Blue),
                                     textAlign = TextAlign.Center,
                                     text = if (model.foundedUser.value.followed_by_req_user) "Followed" else "Follow",
-                                    color = MaterialTheme.colorScheme.tertiary,
+                                    color = if (model.foundedUser.value.followed_by_req_user) MaterialTheme.colorScheme.tertiary else Color.White,
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight(600)
                                 )
