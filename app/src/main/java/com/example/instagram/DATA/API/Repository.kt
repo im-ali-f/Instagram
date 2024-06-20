@@ -1,12 +1,16 @@
 package com.example.instagram.DATA.API
 
 
+import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
+import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 
 class Repository {
@@ -29,6 +33,14 @@ class Repository {
 
         return RetrofitInstance.api.FollowUser(tokenUser = tokenUser, username = username)
     }
+
+
+    suspend fun CreatePost(tokenUser :String , location:RequestBody , text : RequestBody ,photo :MultipartBody.Part ): Response<addPostResponseModel> {
+
+        return RetrofitInstance.api.CreatePost(tokenUser = tokenUser, location =location, text = text, photo = photo )
+    }
+
+
 
 /*
     suspend fun CreateUser(body:UserInfoResponseListItem): Response<UserInfoResponseListItem> {

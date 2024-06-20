@@ -14,10 +14,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.instagram.DATA.API.RetrofitInstance
+import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
 import com.example.instagram.R
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.io.InputStream
+import java.net.URI
 
 class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController , context: Context):ViewModel() {
 
@@ -346,6 +356,64 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         }
         selectedImage.value = images.first()
         return images
+    }
+
+    //location description
+    val enteredLocation = mutableStateOf("")
+    val enteredDescription = mutableStateOf("")
+
+
+
+
+    fun AddPostFunctionallity(context: Context) {
+
+
+        selectedImage.value?.let { uri ->
+            val file = uriToFile(context, uri)
+            file?.let {
+                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), it)
+                val imagePart = MultipartBody.Part.createFormData("photo", it.name, requestFile)
+                val descriptionPart = RequestBody.create("text/plain".toMediaTypeOrNull(), enteredDescription.value)
+                val locationPart = RequestBody.create("text/plain".toMediaTypeOrNull(), enteredLocation.value)
+
+                val tokenToSend = getData("token", "")
+
+                mainViewModel.CreatePost(
+                    tokenUser = "JWT $tokenToSend",
+                    photo = imagePart,
+                    text = descriptionPart,
+                    location = locationPart
+                )
+                mainViewModel.viewModelCreatePostResponse.observe(owner, Observer { response ->
+                    if (response.isSuccessful) {
+
+                        Log.d("AddPost --> success", response.body().toString())
+
+                        mainViewModel.viewModelCreatePostResponse = MutableLiveData()
+
+                    } else {
+                        Log.d("AddPost --> error", response.errorBody()?.string() as String)
+                    }
+                })
+
+
+            }
+        }
+
+
+    }
+
+    fun uriToFile(context: Context, uri: Uri): File? {
+        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+        inputStream?.let {
+            val fileExtension = context.contentResolver.getType(uri)?.substringAfterLast('/')
+            val tempFile = File(context.cacheDir, "${uri.lastPathSegment ?: "tempImage"}.$fileExtension")
+            tempFile.outputStream().use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+            return tempFile
+        }
+        return null
     }
 
 

@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.instagram.DATA.API.Repository
+import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
+import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
@@ -14,6 +16,8 @@ import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 
 class MainViewModel(private val repository: Repository) : ViewModel() {
@@ -69,6 +73,22 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
 
         }
     }
+
+
+    var viewModelCreatePostResponse: MutableLiveData<Response<addPostResponseModel>> = MutableLiveData()
+    fun CreatePost(tokenUser:String, location: RequestBody, text : RequestBody, photo : MultipartBody.Part) {
+        viewModelScope.launch { //kotlin coroutines
+            try {
+                val response: Response<addPostResponseModel> = repository.CreatePost(tokenUser , location =location, text = text, photo = photo )
+                viewModelCreatePostResponse.value = response
+            } catch (e: Exception) {
+                Log.d("CreateUser mainVM --> Error", "${e.message} ")
+            }
+
+        }
+    }
+
+
 
 /*
 
