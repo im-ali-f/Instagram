@@ -303,7 +303,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                 Text(
                     modifier = Modifier
                         .clip(RoundedCornerShape(8.dp))
-                        .clickable { navController.navigate("signupPage")}
+                        .clickable { navController.navigate("signupPage") }
                         .padding(5.dp)
                     ,
                     text = "Sign up",
@@ -336,6 +336,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
 
             )
             Spacer(modifier = Modifier.height(25.dp))
+
 
         }
     }

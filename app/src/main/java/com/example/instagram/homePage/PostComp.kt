@@ -23,10 +23,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -48,6 +51,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import coil.compose.AsyncImage
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.R
 import com.example.instagram.ui.theme.activeDotColor
@@ -69,6 +73,10 @@ import kotlin.math.absoluteValue
 fun PostsComp(model: InstagramMainVM) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
+    LaunchedEffect(Unit) {
+        model.GetFeedFunctionallity()
+    }
+
     LazyColumn(
         Modifier
             .fillMaxSize(),
@@ -78,7 +86,7 @@ fun PostsComp(model: InstagramMainVM) {
         item {
             StorysComp(model)
         }
-        items(model.PostsMapList) { post ->
+        items(model.PostsMapList.value) { post ->
             var targetValue by remember {
                 mutableStateOf(26)
             }
@@ -90,17 +98,14 @@ fun PostsComp(model: InstagramMainVM) {
             }
             val clickAnimation2 by animateIntAsState(targetValue = targetValue2 , animationSpec = tween(durationMillis = 200))
             val coroutineScope2 = rememberCoroutineScope()
-            //count post urls
-            val imageSlider = post["contentList"] as List<String>
-            //val contentSize =postContent.size
+
 
             val liked = remember {
-                mutableStateOf(false)
+                mutableStateOf(post.get("like") as Boolean)
             }
             val saved = remember {
-                mutableStateOf(false)
+                mutableStateOf(post.get("save") as Boolean)
             }
-            val pagerState = rememberPagerState(initialPage = 0)
 
 
 
@@ -179,73 +184,23 @@ fun PostsComp(model: InstagramMainVM) {
                         .height(screenWidth.dp)
                         .background(Color.LightGray)
                 ) {
-                    HorizontalPager(
-                        count = imageSlider.size,
-                        state = pagerState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) { page ->
+
                         Box(
-                            modifier = Modifier
-                                .graphicsLayer {
-                                    val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-
-                                    lerp(
-                                        start = 1f,
-                                        stop = 1f,
-                                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                    ).also { scale ->
-                                        scaleX = scale
-                                        scaleY = scale
-                                    }
-
-                                    alpha = lerp(
-                                        start = 0.5f,
-                                        stop = 1f,
-                                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                                    )
-                                }
                         ) {
-                            Box(modifier = Modifier.fillMaxSize().background(imageSlider[page] as Color))
-                        }
-                    }
-
-
-                    //show pageCount
-                    Box(
-                        modifier = Modifier
-                            .padding(15.dp)
-                            .align(Alignment.TopEnd)
-                    ) {
-                        if(imageSlider.size >1){
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(100))
-                                    .background(pageCountBGCColor),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    modifier = Modifier.padding(
-                                        start = 12.dp,
-                                        end = 12.dp,
-                                        top = 8.dp,
-                                        bottom = 8.dp
-                                    ),
-                                    text = "${pagerState.currentPage+1}/${imageSlider.size}",
-                                    fontWeight = FontWeight(400),
-                                    fontSize = 14.sp,
-                                    maxLines = 1,
-                                    textAlign = TextAlign.Center,
-                                    color = pageCountFontColor,
-
-                                    )
-
-                                //inja ye box max size baraye image ha bayad biad
-
+                            Box(modifier = Modifier
+                                .fillMaxSize()
+                            ){
+                                AsyncImage(
+                                    modifier =Modifier.fillMaxSize(),
+                                    model = post["content"] as String,
+                                    contentDescription = "Image of post",
+                                    contentScale = ContentScale.Crop
+                                 )
                             }
                         }
 
-                    }
+
+
 
                 }
 
@@ -301,27 +256,6 @@ fun PostsComp(model: InstagramMainVM) {
                             }
                         }
 
-                        //page counter dots
-                        Row(
-                            Modifier.align(Alignment.Center),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            if(imageSlider.size >1) {
-                                var i = 0
-                                while(i<imageSlider.size){
-                                    i++
-                                    Box(
-                                        modifier = Modifier
-                                            .size(8.dp)
-                                            .clip(RoundedCornerShape(100))
-                                            .background(if(pagerState.currentPage == i-1)activeDotColor else deActiveDotColor)
-                                    )
-                                    Spacer(modifier = Modifier.width(5.dp))
-                                }
-
-
-                            }
-                        }
 
                         Box(modifier = Modifier.align(Alignment.CenterEnd)) {
                             IconButton(onClick = {
@@ -403,7 +337,7 @@ fun PostsComp(model: InstagramMainVM) {
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(start = 15.dp, end = 15.dp,top = 5.dp, bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
+                            .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
                     )
                     {
 

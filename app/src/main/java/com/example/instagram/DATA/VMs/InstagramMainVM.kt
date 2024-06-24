@@ -99,55 +99,48 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
             "imageUrl" to Color.Gray
         ),
     )
-    val PostsMapList = listOf(
-
-        mapOf(
-            "name" to "im_ali_f",
-            "official" to false,
-            "place" to "New York, America",
-            "imageUrl" to Color.Red,
-            "contentList" to listOf(Color.Blue, Color.Gray , Color.Cyan),
-            "like" to false,
-            "save"  to false,
-            "text"  to "The game in Japan was amazing and I want to share some photos",
-            "likeCount"  to 444221,
-            "followerLiked" to true,
-            "followerLikedName" to "someone",
-        ),
-
-        mapOf(
-            "name" to "ehsan",
-            "official" to true,
-            "place" to "Tehran, Iran",
-            "imageUrl" to Color.Blue,
-            "contentList" to listOf(Color.Yellow),
-            "like" to false,
-            "save"  to false,
-            "text"  to "The game in Japan was amazing and I want to share some photos",
-            "likeCount"  to 532945,
-            "followerLiked" to false,
-            "followerLikedName" to "",
-
-            ),
-
-        mapOf(
-            "name" to "moniba",
-            "official" to true,
-            "place" to "Tokyo, Japan",
-            "imageUrl" to Color.Cyan,
-            "contentList" to listOf(Color.Magenta, Color.Green, Color.Gray , Color.Blue  , Color.DarkGray),
-            "like" to false,
-            "save"  to false,
-            "text"  to "The game in Japan was amazing and I want to share some photos",
-            "likeCount"  to 778234,
-            "followerLiked" to true,
-            "followerLikedName" to "someone_else",
-
-            ),
+    val PostsMapList = mutableStateOf<List<Map<String,Any>>>( listOf(
 
 
 
-    )
+
+
+    ))
+
+
+    fun GetFeedFunctionallity(){
+        val tokenToSend = getData("token", "")
+        mainViewModel.GetFeed("JWT $tokenToSend" , "10","5")
+        mainViewModel.viewModelGetFeedResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+                val tempList = mutableListOf<Map<String,Any>>()
+                Log.d("GetFeed --> success", response.body().toString())
+                response.body()?.results?.forEach { postInfo ->
+                    val tempMap = mapOf(
+                        "name" to postInfo.author.username,
+                        "official" to true,
+                        "place" to postInfo.location,
+                        "imageUrl" to postInfo.author.profile_pic,
+                        "content" to postInfo.photo,
+                        "like" to postInfo.liked_by_req_user,
+                        "save"  to false,
+                        "text"  to postInfo.text,
+                        "likeCount"  to postInfo.number_of_likes,
+                        "comments"  to postInfo.post_comments,
+                        //we can add more info
+                        )
+                    tempList.add(tempMap)
+
+                }
+                PostsMapList.value = tempList
+
+                mainViewModel.viewModelGetFeedResponse = MutableLiveData()
+
+            } else {
+                Log.d("GetFeed --> error", response.errorBody()?.string() as String)
+            }
+        })
+    }
 
     //login
     val loginEnteredUsername = mutableStateOf("")
@@ -354,7 +347,10 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                 images.add(contentUri)
             }
         }
-        selectedImage.value = images.first()
+        if(images.isNotEmpty()){
+            selectedImage.value = images.first()
+
+        }
         return images
     }
 

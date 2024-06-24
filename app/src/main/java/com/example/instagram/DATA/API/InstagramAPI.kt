@@ -2,6 +2,7 @@ package com.example.instagram.DATA.API
 
 import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
+import com.example.instagram.DATA.models.feedModel.feedResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
@@ -53,6 +54,13 @@ interface InstagramAPI {
         @Part("text") text: RequestBody,
         @Part("location") location: RequestBody
     ): Response<addPostResponseModel>
+
+    @GET("posts/feed/")
+    suspend fun GetFeed(
+        @Query("limit")limit: String,
+        @Query("offset")offset: String,
+        @Header("Authorization") tokenUser:String
+    ):Response<feedResponseModel>
 
 
     /*

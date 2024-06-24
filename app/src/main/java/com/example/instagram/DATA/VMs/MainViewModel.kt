@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.instagram.DATA.API.Repository
 import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
+import com.example.instagram.DATA.models.feedModel.feedResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
@@ -88,26 +89,40 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-
-
-/*
-
-
-
-    var viewModelCreateUserResponse: MutableLiveData<Response<UserInfoResponseListItem>> = MutableLiveData()
-    fun CreateUser(body:UserInfoResponseListItem) {
+    var viewModelGetFeedResponse: MutableLiveData<Response<feedResponseModel>> = MutableLiveData()
+    fun GetFeed(tokenUser:String , limit:String,offset:String) {
         viewModelScope.launch { //kotlin coroutines
             try {
-                val response: Response<UserInfoResponseListItem> = repository.CreateUser(body)
-                viewModelCreateUserResponse.value = response
+                val response: Response<feedResponseModel> = repository.GetFeed(tokenUser , limit, offset )
+                viewModelGetFeedResponse.value = response
             } catch (e: Exception) {
-                Log.d("Create User -->", "${e.message} ")
+                Log.d("GetFeed mainVM --> Error", "${e.message} ")
             }
 
         }
     }
 
- */
+
+
+
+    /*
+
+
+
+        var viewModelCreateUserResponse: MutableLiveData<Response<UserInfoResponseListItem>> = MutableLiveData()
+        fun CreateUser(body:UserInfoResponseListItem) {
+            viewModelScope.launch { //kotlin coroutines
+                try {
+                    val response: Response<UserInfoResponseListItem> = repository.CreateUser(body)
+                    viewModelCreateUserResponse.value = response
+                } catch (e: Exception) {
+                    Log.d("Create User -->", "${e.message} ")
+                }
+
+            }
+        }
+
+     */
 
 
 }

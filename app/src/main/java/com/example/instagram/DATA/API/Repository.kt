@@ -3,6 +3,7 @@ package com.example.instagram.DATA.API
 
 import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
+import com.example.instagram.DATA.models.feedModel.feedResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
@@ -38,6 +39,11 @@ class Repository {
     suspend fun CreatePost(tokenUser :String , location:RequestBody , text : RequestBody ,photo :MultipartBody.Part ): Response<addPostResponseModel> {
 
         return RetrofitInstance.api.CreatePost(tokenUser = tokenUser, location =location, text = text, photo = photo )
+    }
+
+    suspend fun GetFeed(tokenUser :String , limit:String , offset:String): Response<feedResponseModel> {
+
+        return RetrofitInstance.api.GetFeed(tokenUser = tokenUser, limit = limit, offset = offset)
     }
 
 
