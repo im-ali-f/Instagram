@@ -127,6 +127,7 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                         "text"  to postInfo.text,
                         "likeCount"  to postInfo.number_of_likes,
                         "comments"  to postInfo.post_comments,
+                        "id" to postInfo.id,
                         //we can add more info
                         )
                     tempList.add(tempMap)
@@ -140,6 +141,23 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                 Log.d("GetFeed --> error", response.errorBody()?.string() as String)
             }
         })
+    }
+
+    fun LikeFunctionallity(id : String) {
+        val tokenToSend = getData("token", "")
+        mainViewModel.Like("JWT $tokenToSend" , id)
+        mainViewModel.viewModelLikeResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("Like --> success", response.body().toString())
+                mainViewModel.viewModelLikeResponse = MutableLiveData()
+
+
+            } else {
+                Log.d("Like --> error", response.errorBody()?.string() as String)
+            }
+        })
+
     }
 
     //login

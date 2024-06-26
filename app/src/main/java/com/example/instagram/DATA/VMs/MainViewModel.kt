@@ -11,6 +11,7 @@ import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
 import com.example.instagram.DATA.models.feedModel.feedResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
+import com.example.instagram.DATA.models.likeModel.likeResponse
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
@@ -97,6 +98,19 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
                 viewModelGetFeedResponse.value = response
             } catch (e: Exception) {
                 Log.d("GetFeed mainVM --> Error", "${e.message} ")
+            }
+
+        }
+    }
+
+    var viewModelLikeResponse: MutableLiveData<Response<likeResponse>> = MutableLiveData()
+    fun Like(tokenUser:String , postId:String) {
+        viewModelScope.launch { //kotlin coroutines
+            try {
+                val response: Response<likeResponse> = repository.Like(tokenUser , postId = postId )
+                viewModelLikeResponse.value = response
+            } catch (e: Exception) {
+                Log.d("Like mainVM --> Error", "${e.message} ")
             }
 
         }

@@ -5,6 +5,7 @@ import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.addPostModel.addPostResponseModel
 import com.example.instagram.DATA.models.feedModel.feedResponseModel
 import com.example.instagram.DATA.models.followModel.followResponseModel
+import com.example.instagram.DATA.models.likeModel.likeResponse
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
@@ -44,6 +45,11 @@ class Repository {
     suspend fun GetFeed(tokenUser :String , limit:String , offset:String): Response<feedResponseModel> {
 
         return RetrofitInstance.api.GetFeed(tokenUser = tokenUser, limit = limit, offset = offset)
+    }
+
+    suspend fun Like(tokenUser :String , postId:String): Response<likeResponse> {
+
+        return RetrofitInstance.api.Like(tokenUser = tokenUser, postId = postId)
     }
 
 

@@ -103,6 +103,9 @@ fun PostsComp(model: InstagramMainVM) {
             val liked = remember {
                 mutableStateOf(post.get("like") as Boolean)
             }
+            val likeCounts = remember {
+                mutableStateOf(post["likeCount"] as Int)
+            }
             val saved = remember {
                 mutableStateOf(post.get("save") as Boolean)
             }
@@ -152,16 +155,19 @@ fun PostsComp(model: InstagramMainVM) {
 
 
                             }
-                            Text(
-                                text = "${post["place"] as String}",
-                                fontWeight = FontWeight(400),
-                                fontSize = 12.sp,
-                                maxLines = 1,
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.surfaceTint,
-                                overflow = TextOverflow.Ellipsis
+                            if(post["place"] as String != ""){
+                                Text(
+                                    text = "${post["place"] as String}",
+                                    fontWeight = FontWeight(400),
+                                    fontSize = 12.sp,
+                                    maxLines = 1,
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colorScheme.surfaceTint,
+                                    overflow = TextOverflow.Ellipsis
 
-                            )
+                                )
+                            }
+
 
                         }
                     }
@@ -227,6 +233,14 @@ fun PostsComp(model: InstagramMainVM) {
 
                                 }
                                 liked.value = ! liked.value
+                                if(liked.value == true){
+                                    likeCounts.value +=1
+                                }
+                                else{
+                                    likeCounts.value -=1
+                                }
+
+                                model.LikeFunctionallity(post["id"] as String)
                             }
                             ) {
                                 Icon(
@@ -281,93 +295,65 @@ fun PostsComp(model: InstagramMainVM) {
                     }
 
                     //row 2
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(15.dp), verticalAlignment = Alignment.CenterVertically
-                    )
-                    {
-                        Box(
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clip(RoundedCornerShape(100))
-                                .background(Color.LightGray)
+                    if(likeCounts.value != 0){
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(15.dp), verticalAlignment = Alignment.CenterVertically
                         )
-                        Spacer(modifier = Modifier.width(7.dp))
-
-                        Text(
-                            text = "Liked by ",
-                            fontWeight = FontWeight(400),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-                        Text(
-                            text = "Some_Of_Friends",
-                            fontWeight = FontWeight(500),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-
-                        Text(
-                            text = " and ",
-                            fontWeight = FontWeight(400),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-
-                        Text(
-                            text = "${post["likeCount"]} others",
-                            fontWeight = FontWeight(500),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-
-
-                    }
-
-                    //row 3
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
-                    )
-                    {
-
-                        Text(
-                            text = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontWeight = FontWeight(500),
-                                        fontSize = 15.sp,
-                                        color = MaterialTheme.colorScheme.tertiary,
-                                    )
-                                )
-                                {
-                                    append("${post["name"]} ")
-                                }
-
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontWeight = FontWeight(400),
-                                        fontSize = 15.sp,
-                                        color = MaterialTheme.colorScheme.tertiary,
-                                    )
-                                )
-                                {
-                                    append("${post["text"]}")
-                                }
-                            },
-
+                        {
+                            Text(
+                                text = "${likeCounts.value} likes",
+                                fontWeight = FontWeight(500),
+                                fontSize = 15.sp,
+                                maxLines = 1,
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.tertiary,
                             )
 
+
+                        }
+                    }
+
+
+                    //row 3
+                    if(post["text"] as String != ""){
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
+                        )
+                        {
+
+                            Text(
+                                text = buildAnnotatedString {
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontWeight = FontWeight(500),
+                                            fontSize = 15.sp,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                        )
+                                    )
+                                    {
+                                        append("${post["name"]} ")
+                                    }
+
+                                    withStyle(
+                                        style = SpanStyle(
+                                            fontWeight = FontWeight(400),
+                                            fontSize = 15.sp,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                        )
+                                    )
+                                    {
+                                        append("${post["text"]}")
+                                    }
+                                },
+
+                                )
+
+
+                        }
 
                     }
 
