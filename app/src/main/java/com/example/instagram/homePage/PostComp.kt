@@ -90,13 +90,19 @@ fun PostsComp(model: InstagramMainVM) {
             var targetValue by remember {
                 mutableStateOf(26)
             }
-            val clickAnimation by animateIntAsState(targetValue = targetValue , animationSpec = tween(durationMillis = 200))
+            val clickAnimation by animateIntAsState(
+                targetValue = targetValue,
+                animationSpec = tween(durationMillis = 200)
+            )
             val coroutineScope = rememberCoroutineScope()
 
             var targetValue2 by remember {
                 mutableStateOf(26)
             }
-            val clickAnimation2 by animateIntAsState(targetValue = targetValue2 , animationSpec = tween(durationMillis = 200))
+            val clickAnimation2 by animateIntAsState(
+                targetValue = targetValue2,
+                animationSpec = tween(durationMillis = 200)
+            )
             val coroutineScope2 = rememberCoroutineScope()
 
 
@@ -113,7 +119,7 @@ fun PostsComp(model: InstagramMainVM) {
 
 
             Column(Modifier.fillMaxWidth()) {
-                Text(text = "${model.CalculateTime(post.get("created_at") as String)}")
+                //Text(text = "${model.CalculateTime(post.get("created_at") as String)}")
                 //profile info Row
                 Row(
                     Modifier
@@ -144,7 +150,7 @@ fun PostsComp(model: InstagramMainVM) {
                                     overflow = TextOverflow.Ellipsis
 
                                 )
-                                if(post["official"] as Boolean){
+                                if (post["official"] as Boolean) {
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Icon(
                                         modifier = Modifier.size(12.dp),
@@ -156,7 +162,7 @@ fun PostsComp(model: InstagramMainVM) {
 
 
                             }
-                            if(post["place"] as String != ""){
+                            if (post["place"] as String != "") {
                                 Text(
                                     text = "${post["place"] as String}",
                                     fontWeight = FontWeight(400),
@@ -192,21 +198,20 @@ fun PostsComp(model: InstagramMainVM) {
                         .background(Color.LightGray)
                 ) {
 
+                    Box(
+                    ) {
                         Box(
-                        ) {
-                            Box(modifier = Modifier
+                            modifier = Modifier
                                 .fillMaxSize()
-                            ){
-                                AsyncImage(
-                                    modifier =Modifier.fillMaxSize(),
-                                    model = post["content"] as String,
-                                    contentDescription = "Image of post",
-                                    contentScale = ContentScale.Crop
-                                 )
-                            }
+                        ) {
+                            AsyncImage(
+                                modifier = Modifier.fillMaxSize(),
+                                model = post["content"] as String,
+                                contentDescription = "Image of post",
+                                contentScale = ContentScale.Crop
+                            )
                         }
-
-
+                    }
 
 
                 }
@@ -233,22 +238,21 @@ fun PostsComp(model: InstagramMainVM) {
                                     targetValue = 26
 
                                 }
-                                liked.value = ! liked.value
-                                if(liked.value == true){
-                                    likeCounts.value +=1
-                                }
-                                else{
-                                    likeCounts.value -=1
+                                liked.value = !liked.value
+                                if (liked.value == true) {
+                                    likeCounts.value += 1
+                                } else {
+                                    likeCounts.value -= 1
                                 }
 
                                 model.LikeFunctionallity(post["id"] as String)
                             }
                             ) {
                                 Icon(
-                                    painter = painterResource(if(liked.value)R.drawable.fillheart_icon else R.drawable.like),
+                                    painter = painterResource(if (liked.value) R.drawable.fillheart_icon else R.drawable.like),
                                     modifier = Modifier.size(clickAnimation.dp),
                                     contentDescription = "postIcon",
-                                    tint= if(liked.value)Color.Red else MaterialTheme.colorScheme.surfaceTint
+                                    tint = if (liked.value) Color.Red else MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             IconButton(onClick = {}
@@ -280,11 +284,11 @@ fun PostsComp(model: InstagramMainVM) {
                                     targetValue2 = 26
 
                                 }
-                                saved.value =! saved.value
+                                saved.value = !saved.value
                             }
                             ) {
                                 Icon(
-                                    painter = painterResource(if(saved.value) R.drawable.savefill  else R.drawable.save),
+                                    painter = painterResource(if (saved.value) R.drawable.savefill else R.drawable.save),
                                     modifier = Modifier.size(clickAnimation2.dp),
                                     contentDescription = "postIcon",
                                     tint = MaterialTheme.colorScheme.surfaceTint
@@ -296,11 +300,12 @@ fun PostsComp(model: InstagramMainVM) {
                     }
 
                     //row 2
-                    if(likeCounts.value != 0){
+                    if (likeCounts.value != 0) {
                         Row(
                             Modifier
                                 .fillMaxWidth()
-                                .padding(15.dp), verticalAlignment = Alignment.CenterVertically
+                                .padding(start =15.dp ,end = 15.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         )
                         {
                             Text(
@@ -318,11 +323,12 @@ fun PostsComp(model: InstagramMainVM) {
 
 
                     //row 3
-                    if(post["text"] as String != ""){
+                    if (post["text"] as String != "") {
                         Row(
                             Modifier
                                 .fillMaxWidth()
-                                .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
+                                .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         )
                         {
 
@@ -359,6 +365,26 @@ fun PostsComp(model: InstagramMainVM) {
                     }
 
 
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 15.dp,end = 15.dp,bottom = 15.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    )
+                    {
+                        Text(
+                            text = "${model.CalculateTime(post.get("created_at") as String)}",
+                            fontWeight = FontWeight(400),
+                            fontSize = 11.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+                        )
+
+
+                    }
+
+
                 }
             }
 
@@ -366,293 +392,3 @@ fun PostsComp(model: InstagramMainVM) {
     }
 }
 
-
-/*
-
-            Column(Modifier.fillMaxWidth()) {
-                //profile info Row
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(35.dp)
-                                .clip(RoundedCornerShape(100))
-                                .background(Color.LightGray)
-                                .clickable { }
-                        )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Column {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(
-                                    text = "im_ali_f",
-                                    fontWeight = FontWeight(600),
-                                    fontSize = 15.sp,
-                                    maxLines = 1,
-                                    textAlign = TextAlign.Center,
-                                    color = mainFontColor,
-                                    overflow = TextOverflow.Ellipsis
-
-                                )
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Icon(
-                                    modifier = Modifier.size(12.dp),
-                                    tint = officialColor,
-                                    painter = painterResource(id = R.drawable.official_icon),
-                                    contentDescription = "official icon"
-                                )
-
-                            }
-                            Text(
-                                text = "NewYork, America",
-                                fontWeight = FontWeight(400),
-                                fontSize = 12.sp,
-                                maxLines = 1,
-                                textAlign = TextAlign.Center,
-                                color = mainFontColor,
-                                overflow = TextOverflow.Ellipsis
-
-                            )
-
-                        }
-                    }
-
-                    IconButton(onClick = {}
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.more_icon),
-                            modifier = Modifier.size(16.dp),
-                            contentDescription = "moreIcon",
-                            tint = mainIconColor
-                        )
-                    }
-
-                }
-                //post Content
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(screenWidth.dp)
-                        .background(Color.LightGray)
-                ) {
-                    //show pageCount
-                    Box(
-                        modifier = Modifier
-                            .padding(15.dp)
-                            .align(Alignment.TopEnd)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(100))
-                                .background(pageCountBGCColor),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                modifier = Modifier.padding(
-                                    start = 12.dp,
-                                    end = 12.dp,
-                                    top = 8.dp,
-                                    bottom = 8.dp
-                                ),
-                                text = "1/3",
-                                fontWeight = FontWeight(400),
-                                fontSize = 14.sp,
-                                maxLines = 1,
-                                textAlign = TextAlign.Center,
-                                color = pageCountFontColor,
-
-                                )
-
-                            //inja ye box max size baraye image ha bayad biad
-
-                        }
-                    }
-
-                }
-
-                //bottom of post
-                Column(Modifier.fillMaxWidth()) {
-                    //row 1
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 5.dp)
-                    )
-                    {
-
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.align(Alignment.CenterStart)
-                        ) {
-                            IconButton(onClick = {}
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.like),
-                                    modifier = Modifier.size(26.dp),
-                                    contentDescription = "postIcon",
-                                    tint = mainIconColor
-                                )
-                            }
-                            IconButton(onClick = {}
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.comment),
-                                    modifier = Modifier.size(26.dp),
-                                    contentDescription = "postIcon",
-                                    tint = mainIconColor
-                                )
-                            }
-                            IconButton(onClick = {}
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.messanger),
-                                    modifier = Modifier.size(26.dp),
-                                    contentDescription = "postIcon",
-                                    tint = mainIconColor
-                                )
-                            }
-                        }
-
-                        //page counter dots
-                        Row(
-                            Modifier.align(Alignment.Center),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(8.dp)
-                                    .clip(RoundedCornerShape(100))
-                                    .background(activeDotColor)
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
-                            Box(
-                                modifier = Modifier
-                                    .size(8.dp)
-                                    .clip(RoundedCornerShape(100))
-                                    .background(deActiveDotColor)
-                            )
-                            Spacer(modifier = Modifier.width(5.dp))
-                            Box(
-                                modifier = Modifier
-                                    .size(8.dp)
-                                    .clip(RoundedCornerShape(100))
-                                    .background(deActiveDotColor)
-                            )
-                        }
-
-                        Box(modifier = Modifier.align(Alignment.CenterEnd)) {
-                            IconButton(onClick = {}
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.save),
-                                    modifier = Modifier.size(26.dp),
-                                    contentDescription = "postIcon",
-                                    tint = mainIconColor
-                                )
-                            }
-                        }
-
-
-                    }
-
-                    //row 2
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(15.dp), verticalAlignment = Alignment.CenterVertically
-                    )
-                    {
-                        Box(
-                            modifier = Modifier
-                                .size(20.dp)
-                                .clip(RoundedCornerShape(100))
-                                .background(Color.LightGray)
-                        )
-                        Spacer(modifier = Modifier.width(7.dp))
-
-                        Text(
-                            text = "Liked by ",
-                            fontWeight = FontWeight(400),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = mainFontColor,
-                        )
-
-                        Text(
-                            text = "Some_Of_Friends",
-                            fontWeight = FontWeight(500),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = mainFontColor,
-                        )
-
-                        Text(
-                            text = " and ",
-                            fontWeight = FontWeight(400),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = mainFontColor,
-                        )
-
-                        Text(
-                            text = "40,332 others",
-                            fontWeight = FontWeight(500),
-                            fontSize = 15.sp,
-                            maxLines = 1,
-                            textAlign = TextAlign.Center,
-                            color = mainFontColor,
-                        )
-                    }
-
-                    //row 3
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(start = 15.dp, end = 15.dp,top = 5.dp, bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
-                    )
-                    {
-
-                        Text(
-                            text = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontWeight = FontWeight(500),
-                                        fontSize = 15.sp,
-                                        color = mainFontColor,
-                                    )
-                                )
-                                {
-                                    append("im_ali_f ")
-                                }
-
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontWeight = FontWeight(400),
-                                        fontSize = 15.sp,
-                                        color = mainFontColor,
-                                    )
-                                )
-                                {
-                                    append("its show time ! kindness or darkness ? they think being kind is weakness of a person !")
-                                }
-                            },
-
-                            )
-
-
-                    }
-
-                }
-
-            }
-
- */
