@@ -1,6 +1,7 @@
 package com.example.instagram.homePage
 
 import android.annotation.SuppressLint
+import android.provider.ContactsContract.Profile
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import com.example.instagram.homePage.BottmBarComp
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.discoverPage.DiscoverComp
 import com.example.instagram.homePage.TopBarComp
+import com.example.instagram.profilePage.ProfileComp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -61,7 +63,7 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            NavHost(navController =innerNavState , startDestination = "homePart"){
+            NavHost(navController =innerNavState , startDestination = "profilePart"){
                 composable("homePart"){
                     model.selectedBottomBar.value =1
                     showTopBar.value = true
@@ -71,6 +73,12 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
                 composable("discoverPart"){
                     model.selectedBottomBar.value =2
                     DiscoverComp(model = model,navController = navController)
+                    showTopBar.value = false
+                    showBottomBar.value = true
+                }
+                composable("profilePart"){
+                    model.selectedBottomBar.value =5
+                    ProfileComp(model = model)
                     showTopBar.value = false
                     showBottomBar.value = true
                 }

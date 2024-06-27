@@ -505,5 +505,10 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         return null
     }
 
+    //get my info and check token
+    fun GetMe(){
+
+    }
+
 
 }
