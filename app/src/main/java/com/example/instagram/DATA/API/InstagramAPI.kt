@@ -82,6 +82,7 @@ interface InstagramAPI {
         @Path("username")username: String,
         @Header("Authorization") tokenUser:String
     ):Response<profileInfoResponse>
+
     /*
     @GET("user")
 

@@ -30,6 +30,7 @@ import com.example.instagram.R
 fun ProfileComp(model: InstagramMainVM){
     Column(Modifier.fillMaxWidth()) {
         //upper row
+
         Box (
             Modifier
                 .fillMaxWidth()

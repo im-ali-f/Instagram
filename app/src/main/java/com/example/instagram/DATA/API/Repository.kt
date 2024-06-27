@@ -9,6 +9,7 @@ import com.example.instagram.DATA.models.likeModel.likeResponse
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
 import com.example.instagram.DATA.models.profileModel.meResponse
+import com.example.instagram.DATA.models.profileModel.profileInfoResponse
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
@@ -56,6 +57,11 @@ class Repository {
     suspend fun Me(tokenUser :String ): Response<meResponse> {
 
         return RetrofitInstance.api.Me(tokenUser = tokenUser)
+    }
+
+    suspend fun GetProfile(tokenUser :String , username:String): Response<profileInfoResponse> {
+
+        return RetrofitInstance.api.GetProfile(tokenUser = tokenUser, username = username)
     }
 
 

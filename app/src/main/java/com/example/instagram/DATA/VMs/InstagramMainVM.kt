@@ -524,7 +524,22 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
 
     }
 
+    fun GetProfileFunctionallity(username: String) {
+        val tokenToSend = getData("token", "")
+        mainViewModel.GetProfile("JWT $tokenToSend" , username)
+        mainViewModel.viewModelGetProfileResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
 
+                Log.d("GetProfile --> success", response.body().toString())
+                mainViewModel.viewModelGetProfileResponse = MutableLiveData()
+
+
+            } else {
+                Log.d("GetProfile --> error", response.errorBody()?.string() as String)
+            }
+        })
+
+    }
 
 
 }
