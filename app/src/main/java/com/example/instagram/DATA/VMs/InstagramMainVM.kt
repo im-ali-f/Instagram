@@ -506,9 +506,25 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
     }
 
     //get my info and check token
-    fun GetMe(){
+    fun GetMe() {
+        val tokenToSend = getData("token", "")
+        mainViewModel.Me("JWT $tokenToSend")
+        mainViewModel.viewModelMeResponse.observe(owner, Observer { response ->
+            if (response.isSuccessful) {
+
+                Log.d("Me --> success", response.body().toString())
+                loggedInUserName = response.body()?.username.toString()
+                mainViewModel.viewModelMeResponse = MutableLiveData()
+
+
+            } else {
+                Log.d("Me --> error", response.errorBody()?.string() as String)
+            }
+        })
 
     }
+
+
 
 
 }

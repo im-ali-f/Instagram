@@ -7,6 +7,8 @@ import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.likeModel.likeResponse
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
+import com.example.instagram.DATA.models.profileModel.meResponse
+import com.example.instagram.DATA.models.profileModel.profileInfoResponse
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
@@ -69,6 +71,17 @@ interface InstagramAPI {
         @Header("Authorization") tokenUser:String
     ):Response<likeResponse>
 
+    @GET("users/me/")
+    suspend fun Me(
+        @Header("Authorization") tokenUser:String
+    ):Response<meResponse>
+
+
+    @GET("users/{username}/")
+    suspend fun GetProfile(
+        @Path("username")username: String,
+        @Header("Authorization") tokenUser:String
+    ):Response<profileInfoResponse>
     /*
     @GET("user")
 

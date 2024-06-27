@@ -8,6 +8,7 @@ import com.example.instagram.DATA.models.followModel.followResponseModel
 import com.example.instagram.DATA.models.likeModel.likeResponse
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
 import com.example.instagram.DATA.models.loginModel.loginResponseModel
+import com.example.instagram.DATA.models.profileModel.meResponse
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
@@ -52,13 +53,19 @@ class Repository {
         return RetrofitInstance.api.Like(tokenUser = tokenUser, postId = postId)
     }
 
+    suspend fun Me(tokenUser :String ): Response<meResponse> {
 
-
-/*
-    suspend fun CreateUser(body:UserInfoResponseListItem): Response<UserInfoResponseListItem> {
-
-        return RetrofitInstance.api.CreateUser(body)
+        return RetrofitInstance.api.Me(tokenUser = tokenUser)
     }
 
-     */
+
+
+
+    /*
+        suspend fun CreateUser(body:UserInfoResponseListItem): Response<UserInfoResponseListItem> {
+
+            return RetrofitInstance.api.CreateUser(body)
+        }
+
+         */
 }
