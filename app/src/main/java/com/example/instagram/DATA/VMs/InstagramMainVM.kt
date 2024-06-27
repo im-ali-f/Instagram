@@ -28,6 +28,12 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.InputStream
 import java.net.URI
+import java.time.Duration
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOwner , val navController: NavController , context: Context):ViewModel() {
 
@@ -110,7 +116,7 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
 
     fun GetFeedFunctionallity(){
         val tokenToSend = getData("token", "")
-        mainViewModel.GetFeed("JWT $tokenToSend" , "10","5")
+        mainViewModel.GetFeed("JWT $tokenToSend" , "10","0") // todo in bayad avaz she chon  nmidonam chejori post bishtar begiram
         mainViewModel.viewModelGetFeedResponse.observe(owner, Observer { response ->
             if (response.isSuccessful) {
                 val tempList = mutableListOf<Map<String,Any>>()
@@ -128,6 +134,7 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                         "likeCount"  to postInfo.number_of_likes,
                         "comments"  to postInfo.post_comments,
                         "id" to postInfo.id,
+                        "created_at" to postInfo.posted_on
                         //we can add more info
                         )
                     tempList.add(tempMap)
@@ -141,6 +148,49 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                 Log.d("GetFeed --> error", response.errorBody()?.string() as String)
             }
         })
+    }
+
+    fun CalculateTime(timeStamp: String):String{
+        val zonedDateTime = ZonedDateTime.parse(timeStamp, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+
+        // Convert to local time zone
+        val localDateTime = zonedDateTime.withZoneSameInstant(ZoneId.systemDefault())
+
+        // posted on in my time zone
+        val formattedDateTime = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+
+        //get current time
+        val now = ZonedDateTime.now(ZoneId.systemDefault())
+
+        // Calculate the difference in seconds
+        val duration = Duration.between(localDateTime, now)
+        val seconds = duration.seconds
+        val absSeconds = Math.abs(seconds)
+        // return result
+        return when {
+            absSeconds < 60 -> "$absSeconds seconds"
+            absSeconds < 3600 -> "${absSeconds / 60} minutes"
+            absSeconds < 86400 -> "${absSeconds / 3600} hours"
+            absSeconds < 604800 -> "${absSeconds / 86400} days"
+            //absSeconds < 2419200 -> "${absSeconds / 604800} weeks"
+            //else -> localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            else -> {
+                // Get the current year
+                val currentYear = now.year
+
+                // Format the date to include month name
+                val month = localDateTime.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+                val day = localDateTime.dayOfMonth
+                val year = localDateTime.year
+
+                if (year == currentYear) {
+                    "$month $day"
+                } else {
+                    "$month $day, $year"
+                }
+            }
+        }
+
     }
 
     fun LikeFunctionallity(id : String) {

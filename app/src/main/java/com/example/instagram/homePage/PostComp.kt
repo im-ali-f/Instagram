@@ -113,6 +113,7 @@ fun PostsComp(model: InstagramMainVM) {
 
 
             Column(Modifier.fillMaxWidth()) {
+                Text(text = "${model.CalculateTime(post.get("created_at") as String)}")
                 //profile info Row
                 Row(
                     Modifier
