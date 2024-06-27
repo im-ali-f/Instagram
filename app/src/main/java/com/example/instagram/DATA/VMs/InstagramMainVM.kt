@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.example.instagram.DATA.API.RetrofitInstance
 import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
 import com.example.instagram.DATA.models.loginModel.loginBodyModel
+import com.example.instagram.DATA.models.profileModel.profileInfoResponse
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
 import com.example.instagram.R
@@ -524,12 +525,27 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
 
     }
 
+    var foundedProfile = mutableStateOf(
+        profileInfoResponse(
+            bio = "",
+            username = "",
+            fullname = "",
+            id = 0,
+            user_posts = emptyList(),
+            followed_by_req_user = false,
+            number_of_followers = 0,
+            number_of_following = 0,
+            profile_pic = "",
+            number_of_posts = 0
+        )
+    )
     fun GetProfileFunctionallity(username: String) {
         val tokenToSend = getData("token", "")
         mainViewModel.GetProfile("JWT $tokenToSend" , username)
         mainViewModel.viewModelGetProfileResponse.observe(owner, Observer { response ->
             if (response.isSuccessful) {
 
+                foundedProfile.value = response.body()!!
                 Log.d("GetProfile --> success", response.body().toString())
                 mainViewModel.viewModelGetProfileResponse = MutableLiveData()
 
