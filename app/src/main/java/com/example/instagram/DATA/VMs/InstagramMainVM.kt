@@ -168,12 +168,30 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
         val absSeconds = Math.abs(seconds)
         // return result
         return when {
-            absSeconds < 60 -> "$absSeconds seconds"
-            absSeconds < 3600 -> "${absSeconds / 60} minutes"
-            absSeconds < 86400 -> "${absSeconds / 3600} hours"
-            absSeconds < 604800 -> "${absSeconds / 86400} days"
-            //absSeconds < 2419200 -> "${absSeconds / 604800} weeks"
-            //else -> localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            absSeconds < 60 -> "${absSeconds} ${if (absSeconds == 1L) "Second" else "Seconds"} Ago"
+            absSeconds < 3600 -> {
+                val minutes = absSeconds / 60
+                "$minutes ${if (minutes == 1L) "Minute" else "Minutes"} Ago"
+            }
+
+            absSeconds < 86400 -> {
+                val hours = absSeconds / 3600
+                "$hours ${if (hours == 1L) "Hour" else "Hours"} Ago"
+            }
+
+            absSeconds < 604800 -> {
+                val days = absSeconds / 86400
+                "$days ${if (days == 1L) "Day" else "Days"} Ago"
+            }
+
+            /*
+            absSeconds < 2419200 -> {
+                val weeks = absSeconds / 604800
+                "$weeks ${if (weeks == 1L) "Week" else "weeks"} Ago"
+            }
+
+             */
+
             else -> {
                 // Get the current year
                 val currentYear = now.year
