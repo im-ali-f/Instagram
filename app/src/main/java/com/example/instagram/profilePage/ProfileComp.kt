@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -118,7 +119,10 @@ fun ProfileComp(model: InstagramMainVM) {
             var targetValue by remember {
                 mutableStateOf(100)
             }
-            val clickAnimation by animateIntAsState(targetValue = targetValue , animationSpec = tween(durationMillis = 200))
+            val clickAnimation by animateIntAsState(
+                targetValue = targetValue,
+                animationSpec = tween(durationMillis = 200)
+            )
             val coroutineScope = rememberCoroutineScope()
 
 
@@ -129,7 +133,7 @@ fun ProfileComp(model: InstagramMainVM) {
                 verticalAlignment = Alignment.CenterVertically,
                 //horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Box(modifier = Modifier.size(105.dp), contentAlignment = Alignment.Center){
+                Box(modifier = Modifier.size(105.dp), contentAlignment = Alignment.Center) {
                     Box(modifier = Modifier
                         .size(clickAnimation.dp)
                         .clip(RoundedCornerShape(100))
@@ -146,10 +150,12 @@ fun ProfileComp(model: InstagramMainVM) {
                             shape = RoundedCornerShape(100)
                         ))
 
-                    Box(modifier = Modifier
-                        .size(90.dp)
-                        .clip(RoundedCornerShape(100))
-                        .background(Color.LightGray)){
+                    Box(
+                        modifier = Modifier
+                            .size(90.dp)
+                            .clip(RoundedCornerShape(100))
+                            .background(Color.LightGray)
+                    ) {
                         AsyncImage(
                             modifier = Modifier.fillMaxSize(),
                             model = model.foundedProfile.value.profile_pic,
@@ -159,8 +165,85 @@ fun ProfileComp(model: InstagramMainVM) {
                     }
 
                 }
+
+                Row (
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 30.dp, end = 30.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "${model.foundedProfile.value.number_of_posts}",
+                            fontWeight = FontWeight(600),
+                            fontSize = 18.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+
+                            )
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(
+                            text = "Posts",
+                            fontWeight = FontWeight(500),
+                            fontSize = 15.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+
+                            )
+                    }
+
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "${model.foundedProfile.value.number_of_followers}",
+                            fontWeight = FontWeight(600),
+                            fontSize = 18.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+
+                            )
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(
+                            text = "Followers",
+                            fontWeight = FontWeight(500),
+                            fontSize = 15.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+
+                            )
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "${model.foundedProfile.value.number_of_following}",
+                            fontWeight = FontWeight(600),
+                            fontSize = 18.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+
+                            )
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(
+                            text = "Following",
+                            fontWeight = FontWeight(500),
+                            fontSize = 15.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.tertiary,
+
+                            )
+                    }
+
                 }
 
+            }
 
 
         }
