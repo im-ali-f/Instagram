@@ -57,9 +57,9 @@ fun ProfileComp(model: InstagramMainVM) {
 
     if (model.foundedProfile.value.id != 0) {
         Column(Modifier.fillMaxWidth()) {
-            //upper row
 
 
+            //upper text
             Box(
                 Modifier
                     .fillMaxWidth()
@@ -108,6 +108,7 @@ fun ProfileComp(model: InstagramMainVM) {
             }
 
 
+            //prof pic and nums
             val storyBrush = Brush.linearGradient(
                 colors = listOf(
                     Color(0xFFFBAA47),
@@ -193,7 +194,6 @@ fun ProfileComp(model: InstagramMainVM) {
 
                             )
                     }
-
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = "${model.foundedProfile.value.number_of_followers}",
@@ -242,6 +242,34 @@ fun ProfileComp(model: InstagramMainVM) {
                     }
 
                 }
+
+            }
+
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)){
+                Text(
+                    text = "${model.foundedProfile.value.fullname}",
+                    fontWeight = FontWeight(600),
+                    fontSize = 15.sp,
+                    maxLines = 1,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.tertiary,
+
+                    )
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Text(
+                    text = "this is an static bio for \nto show i can crate an easy text too !" ,
+                    fontWeight = FontWeight(400),
+                    fontSize = 14.sp,
+                    //maxLines = 1,
+                    textAlign = TextAlign.Start,
+                    color = MaterialTheme.colorScheme.tertiary,
+
+                    )
+
 
             }
 
