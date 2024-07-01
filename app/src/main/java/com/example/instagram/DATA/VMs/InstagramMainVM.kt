@@ -111,13 +111,11 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
     val PostsMapList = mutableStateOf<List<Map<String,Any>>>( listOf(
 
 
-
-
-
     ))
 
 
     fun GetFeedFunctionallity(){
+        PostsMapList.value =listOf()
         val tokenToSend = getData("token", "")
         mainViewModel.GetFeed("JWT $tokenToSend" , "10","0") // todo in bayad avaz she chon  nmidonam chejori post bishtar begiram
         mainViewModel.viewModelGetFeedResponse.observe(owner, Observer { response ->
@@ -294,16 +292,53 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
    // log out
 
     fun LogoutFunctionallity(){
-        saveData("token","")
+
+        // Clear stored token
+        saveData("token", "")
+
+        // Reset login fields
         loginEnteredUsername.value = ""
         loginEnteredPassword.value = ""
         passwordVisible.value = false
+
+        // Reset signup fields
         signupEnteredUsername.value = ""
         signupEnteredPassword.value = ""
         signupEnteredEmail.value = ""
         signupEnteredFullName.value = ""
         signupPasswordVisible.value = false
+
+        // Reset other states
+        selectedBottomBar.value = 0
+        PostsMapList.value = listOf()
+        discoverEnteredSearch.value = ""
+        foundedUser.value = userResponseModel(username = "", fullname = "", id = 0, bio = "", followed_by_req_user = false, number_of_followers = 0, number_of_following = 0, user_posts = emptyList(), number_of_posts = 0, profile_pic = "")
+        selectedImage.value = null
+        enteredLocation.value = ""
+        enteredDescription.value = ""
+        showLoadingAddPost.value = false
+        startUpload.value = false
+        percentUpload.value = 0.3f
+        uploaded.value = false
+        uploadedPost = mapOf()
+        focusedOnSearchBar.value = false
+        SelectedBottomBarAdd.value = 1
+        loggedInUserName = ""
+        loggedInUserToken = ""
+        foundedProfile.value = profileInfoResponse(
+            bio = "",
+            username = "",
+            fullname = "",
+            id = 0,
+            user_posts = emptyList(),
+            followed_by_req_user = false,
+            number_of_followers = 0,
+            number_of_following = 0,
+            profile_pic = "",
+            number_of_posts = 0
+        )
         navController.navigate("loginPage")
+
     }
 
     fun validateToken () :String{
@@ -451,22 +486,35 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
 
 
     val startUpload = mutableStateOf(false)
-    val percentUpload = mutableStateOf(0f)
+    val percentUpload = mutableStateOf(0.3f)
     val uploaded = mutableStateOf(false)
 
-    fun AddPostFunctionallity(context: Context) {
+    fun testAnimation(){
+        //animation
         startUpload.value = true
         percentUpload.value = 0f
         uploaded.value = false
+        Log.d("animation", "testAnimation: started ")
 
         viewModelScope.launch {
+            Log.d("animation", "testAnimation: increasing ")
+
             delay(500)
             while(percentUpload.value <1f){
-                delay(100)
-                percentUpload.value += 0.05f
+                delay(30)
+                percentUpload.value += 0.007f
             }
             uploaded.value = true
+            delay(3000)
+            startUpload.value = false
         }
+        //end animation
+    }
+
+    var uploadedPost = mapOf<String,Any>()
+
+    fun AddPostFunctionallity(context: Context) {
+
 
         selectedImage.value?.let { uri ->
             val file = uriToFile(context, uri)
@@ -489,9 +537,41 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
                     if (response.isSuccessful) {
 
                         Log.d("AddPost --> success", response.body().toString())
+                        uploadedPost = mapOf(
+                            "name" to response.body()!!.author.username,
+                            "official" to true,
+                            "place" to response.body()!!.location,
+                            "imageUrl" to response.body()!!.author.profile_pic,
+                            "content" to response.body()!!.photo,
+                            "like" to response.body()!!.liked_by_req_user,
+                            "save"  to false,
+                            "text"  to response.body()!!.text,
+                            "likeCount"  to response.body()!!.number_of_likes,
+                            "comments"  to response.body()!!.post_comments,
+                            "id" to response.body()!!.id,
+                            "created_at" to response.body()!!.posted_on
+                            //we can add more info
+                        )
 
                         mainViewModel.viewModelCreatePostResponse = MutableLiveData()
-                        navController.navigate("homePage")
+                        //navController.navigate("homePage")
+                        //animation
+                        startUpload.value = true
+                        percentUpload.value = 0f
+                        uploaded.value = false
+
+                        viewModelScope.launch {
+                            delay(500)
+                            while(percentUpload.value <1f){
+                                delay(100)
+                                percentUpload.value += 0.05f
+                            }
+                            uploaded.value = true
+                            delay(2000)
+                            startUpload.value = false
+                        }
+                        //end animation
+
                         enteredDescription.value = ""
                         enteredLocation.value = ""
                         selectedImage.value = null

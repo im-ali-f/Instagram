@@ -19,6 +19,7 @@ import com.example.instagram.DATA.models.profileModel.profileInfoResponse
 import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.signupModel.signupResponseModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -95,6 +96,7 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
     var viewModelGetFeedResponse: MutableLiveData<Response<feedResponseModel>> = MutableLiveData()
     fun GetFeed(tokenUser:String , limit:String,offset:String) {
         viewModelScope.launch { //kotlin coroutines
+
             try {
                 val response: Response<feedResponseModel> = repository.GetFeed(tokenUser , limit, offset )
                 viewModelGetFeedResponse.value = response

@@ -85,7 +85,7 @@ fun TopBarlocDesComp(
                     .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         navController.navigate("homePage")
-                       model.AddPostFunctionallity(context)
+                        model.AddPostFunctionallity(context)
                     }
                     .padding(5.dp),
                 text = "Done",
