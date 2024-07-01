@@ -1,6 +1,8 @@
 package com.example.instagram.homePage
 
+
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -24,6 +26,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -46,7 +49,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -392,7 +397,12 @@ fun PostsComp(model: InstagramMainVM) {
                                 Row(
                                     Modifier
                                         .fillMaxWidth()
-                                        .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp),
+                                        .padding(
+                                            start = 15.dp,
+                                            end = 15.dp,
+                                            top = 5.dp,
+                                            bottom = 5.dp
+                                        ),
                                     verticalAlignment = Alignment.CenterVertically
                                 )
                                 {
@@ -694,6 +704,9 @@ fun PostsComp(model: InstagramMainVM) {
                         }
                     }
 
+                    var expanded by remember {
+                        mutableStateOf(false)
+                    }
 
                     //row 3
                     if (post["text"] as String != "") {
@@ -701,36 +714,12 @@ fun PostsComp(model: InstagramMainVM) {
                             Modifier
                                 .fillMaxWidth()
                                 .padding(start = 15.dp, end = 15.dp, top = 5.dp, bottom = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically
+
                         )
                         {
 
-                            Text(
-                                text = buildAnnotatedString {
-                                    withStyle(
-                                        style = SpanStyle(
-                                            fontWeight = FontWeight(500),
-                                            fontSize = 15.sp,
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                        )
-                                    )
-                                    {
-                                        append("${post["name"]} ")
-                                    }
+                            ExpandableText(text ="${post["text"]}" , name = "${post["name"]}" )
 
-                                    withStyle(
-                                        style = SpanStyle(
-                                            fontWeight = FontWeight(400),
-                                            fontSize = 15.sp,
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                        )
-                                    )
-                                    {
-                                        append("${post["text"]}")
-                                    }
-                                },
-
-                                )
 
 
                         }
@@ -765,3 +754,74 @@ fun PostsComp(model: InstagramMainVM) {
     }
 }
 
+
+@Composable
+fun ExpandableText(
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    style: TextStyle = LocalTextStyle.current,
+    fontStyle: FontStyle? = null,
+    text: String,
+    collapsedMaxLine: Int = 2,
+    showMoreText: String = "... more",
+    showMoreStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.W500),
+    showLessText: String = "",
+    showLessStyle: SpanStyle = showMoreStyle,
+    textAlign: TextAlign? = null,
+    name :String
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var clickable by remember { mutableStateOf(false) }
+    var lastCharIndex by remember { mutableStateOf(0) }
+    Box(modifier = Modifier
+        .clickable(clickable) {
+            isExpanded = true
+            clickable = false
+        }
+        .then(modifier)
+    ) {
+        Text(
+            modifier = textModifier
+                .fillMaxWidth()
+                .animateContentSize(),
+            text = buildAnnotatedString {
+
+                withStyle(
+                    style = SpanStyle(
+                        fontWeight = FontWeight(500),
+                        fontSize = 15.sp,
+                        color = MaterialTheme.colorScheme.tertiary,
+                    )
+                )
+                {
+                    append("$name ")
+                }
+                if (clickable) {
+                    if (isExpanded) {
+                        append(text)
+                        withStyle(style = showLessStyle) { append(showLessText) }
+                    } else {
+                        val adjustText = text.substring(startIndex = 0, endIndex = lastCharIndex)
+                            .dropLast(showMoreText.length)
+                            .dropLastWhile { Character.isWhitespace(it) || it == '.' }
+                        append(adjustText)
+                        withStyle(style = showMoreStyle) { append(showMoreText) }
+                    }
+                } else {
+                    append(text)
+                }
+            },
+            maxLines = if (isExpanded) Int.MAX_VALUE else collapsedMaxLine,
+            fontStyle = fontStyle,
+            onTextLayout = { textLayoutResult ->
+                if (!isExpanded && textLayoutResult.hasVisualOverflow) {
+                    clickable = true
+                    lastCharIndex = textLayoutResult.getLineEnd(collapsedMaxLine - 1)
+                }
+            },
+            style = style,
+            textAlign = textAlign
+        )
+    }
+
+}
