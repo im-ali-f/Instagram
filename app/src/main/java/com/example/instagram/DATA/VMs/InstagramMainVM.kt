@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.instagram.DATA.API.RetrofitInstance
 import com.example.instagram.DATA.models.addPostModel.addPostBodyModel
@@ -22,6 +23,7 @@ import com.example.instagram.DATA.models.signupModel.signupBodyModel
 import com.example.instagram.DATA.models.userModel.userResponseModel
 import com.example.instagram.R
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -448,9 +450,23 @@ class InstagramMainVM(val mainViewModel : MainViewModel , val owner: LifecycleOw
 
 
 
+    val startUpload = mutableStateOf(false)
+    val percentUpload = mutableStateOf(0f)
+    val uploaded = mutableStateOf(false)
 
     fun AddPostFunctionallity(context: Context) {
+        startUpload.value = true
+        percentUpload.value = 0f
+        uploaded.value = false
 
+        viewModelScope.launch {
+            delay(500)
+            while(percentUpload.value <1f){
+                delay(100)
+                percentUpload.value += 0.05f
+            }
+            uploaded.value = true
+        }
 
         selectedImage.value?.let { uri ->
             val file = uriToFile(context, uri)

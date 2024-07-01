@@ -148,8 +148,7 @@ fun BottmBarComp(model: InstagramMainVM ,navController: NavController, innerNavC
                             .padding(10.dp)
                             .size(30.dp)
                             .clickable {
-                                model.LogoutFunctionallity()
-
+                                innerNavController.navigate("profilePart")
                             }
                             .clip(RoundedCornerShape(100))
 

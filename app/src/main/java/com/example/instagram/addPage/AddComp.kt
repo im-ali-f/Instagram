@@ -230,7 +230,7 @@ fun GalleryBox(images: List<Uri>, model: InstagramMainVM) {
         columns = GridCells.Fixed(4),
         modifier = Modifier.fillMaxSize(),
         content = {
-            items(images) { imageUri ->
+            items(images.reversed()) { imageUri ->
                 Card(
                     backgroundColor = Color.LightGray,
                     modifier = Modifier
