@@ -122,6 +122,9 @@ dependencies {
     //animation navigation
     implementation(libs.androidx.compose.animation)
 
+    implementation(platform("androidx.compose:compose-bom:2024.02.01"))
+
+
 
 
 

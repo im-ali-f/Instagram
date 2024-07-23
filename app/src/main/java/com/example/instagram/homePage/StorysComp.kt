@@ -229,10 +229,10 @@ fun StorysComp(model: InstagramMainVM) {
                                     .background(brush = liveBrush)
                             ) {
                                 Text(
-                                    modifier = Modifier.padding(start=7.dp , end= 7.dp , top= 5.dp , bottom = 5.dp),
+                                    modifier = Modifier.padding(start=7.dp , end= 7.dp , top= 2.dp , bottom = 2.dp),
                                     text = "LIVE",
-                                    fontWeight = FontWeight(500),
-                                    fontSize = 8.sp,
+                                    fontWeight = FontWeight(700),
+                                    fontSize = 10.sp,
                                     maxLines = 1,
                                     textAlign = TextAlign.Center,
                                     color = Color(0xFFFEFEFE),
