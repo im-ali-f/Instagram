@@ -1,5 +1,8 @@
 package com.example.instagram.discoverPage
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -48,8 +51,9 @@ import com.example.instagram.ui.theme.officialColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun DetailComp(model: InstagramMainVM, navController: NavController, index: Int) {
+fun SharedTransitionScope.DetailComp(model: InstagramMainVM, navController: NavController, index: Int, animatedVisibilityScope: AnimatedVisibilityScope) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val screenHeight = LocalConfiguration.current.screenHeightDp
     Column(
@@ -191,7 +195,14 @@ fun DetailComp(model: InstagramMainVM, navController: NavController, index: Int)
                         ) {
 
                                 Image(
-                                    modifier = Modifier.size((screenWidth*1.5).dp),
+                                    modifier = Modifier.size((screenWidth*1.5).dp)
+                                        .sharedBounds(
+                                        rememberSharedContentState(key = "monkey/$index"),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        boundsTransform = {initial , target ->
+                                            tween(durationMillis = 500)
+                                        }
+                                    ),
                                     painter = painterResource(id = model.monkeyList.get(index)),
                                     contentScale = ContentScale.Crop,
                                     contentDescription = "monkey Image"
@@ -339,7 +350,7 @@ fun DetailComp(model: InstagramMainVM, navController: NavController, index: Int)
                     )
                     {
                         Text(
-                            text = "dosent matter",
+                            text = "2000 years ago",
                             fontWeight = FontWeight(400),
                             fontSize = 11.sp,
                             maxLines = 1,

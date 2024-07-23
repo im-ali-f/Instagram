@@ -2,7 +2,12 @@ package com.example.instagram.discoverPage
 
 import android.annotation.SuppressLint
 import android.widget.Space
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,9 +53,15 @@ import androidx.navigation.NavController
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.ui.theme.mainBlueColor
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
+fun SharedTransitionScope.DiscoverComp(
+    model: InstagramMainVM,
+    navController: NavController,
+    navControllerInner: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope
+) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -83,12 +94,21 @@ fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
                             backgroundColor = Color.Red,
                             modifier = Modifier
                                 .padding(1.dp)
-                                .clickable {  navController.navigate("detail/$index")}
+
+                                .clickable { navControllerInner.navigate("detail/$index") }
                                 .fillMaxWidth(),
                             elevation = 8.dp,
                         ) {
                             Image(
-                                modifier = Modifier.size(135.dp),
+                                modifier = Modifier
+                                    .size(135.dp)
+                                    .sharedBounds(
+                                        rememberSharedContentState(key = "monkey/$index"),
+                                        animatedVisibilityScope = animatedVisibilityScope,
+                                        boundsTransform = {initial , target ->
+                                            tween(durationMillis = 500)
+                                        }
+                                    ),
                                 contentScale = ContentScale.Crop,
                                 painter = painterResource(id = model.monkeyList[index]),
                                 contentDescription = "monkeyImage"

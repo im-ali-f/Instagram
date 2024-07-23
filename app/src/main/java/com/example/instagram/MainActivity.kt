@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -35,6 +37,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @OptIn(ExperimentalPermissionsApi::class)
@@ -56,31 +59,29 @@ class MainActivity : ComponentActivity() {
                     //val startDestination = model.validateToken()
                     val startDestination = "homePage"
 
-                    NavHost(navController = navStateBig , startDestination = startDestination ){
-                        composable("signupPage"){
-                            SignupComp(navStateBig , model)
-                        }
-                        composable("loginPage"){
-                            LoginComp(navStateBig , model)
-                        }
-                        composable("homePage"){
-                            HomeComp(navStateBig , model)
-                        }
-                        composable("addPage"){
-                           AddComp(navController = navStateBig , model = model)
-                        }
-                        composable("locDesPage"){
-                            locDesComp(navController = navStateBig , model = model)
-                        }
-                        composable("detail/{index}",arguments = listOf(
-                            navArgument("index"){
-                                type = NavType.IntType
+
+                        NavHost(navController = navStateBig , startDestination = startDestination ){
+                            composable("signupPage"){
+                                SignupComp(navStateBig , model)
                             }
-                        )){
-                            var index = it.arguments?.getInt("index")
-                            DetailComp(model = model, navController = navStateBig, index = index as Int )
+                            composable("loginPage"){
+                                LoginComp(navStateBig , model)
+                            }
+                            composable("homePage"){
+                                HomeComp(navStateBig , model)
+                            }
+                            composable("addPage"){
+                                AddComp(navController = navStateBig , model = model)
+                            }
+                            composable("locDesPage"){
+                                locDesComp(navController = navStateBig , model = model)
+                            }
+
+
+
                         }
-                    }
+
+
                 }
             }
         }
