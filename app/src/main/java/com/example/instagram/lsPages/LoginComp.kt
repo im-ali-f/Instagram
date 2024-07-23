@@ -200,6 +200,7 @@ fun LoginComp(navController: NavController, model: InstagramMainVM) {
                 )
             }
 
+
             Spacer(modifier = Modifier.height(20.dp))
             Row (Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End){
                 Text(

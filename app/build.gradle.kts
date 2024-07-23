@@ -119,6 +119,9 @@ dependencies {
     //permision
     implementation ("com.google.accompanist:accompanist-permissions:0.24.13-rc")
 
+    //compose animation
+    implementation ("androidx.compose.animation:animation:1.6.8")
+
 
 
 

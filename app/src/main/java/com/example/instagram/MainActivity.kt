@@ -16,14 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.instagram.DATA.API.Repository
 import com.example.instagram.DATA.VMs.InstagramMainVM
 import com.example.instagram.DATA.VMs.MainViewModel
 import com.example.instagram.addPage.AddComp
 import com.example.instagram.addPage.locDesComp
+import com.example.instagram.discoverPage.DetailComp
 import com.example.instagram.homePage.HomeComp
 import com.example.instagram.lsPages.LoginComp
 import com.example.instagram.lsPages.SignupComp
@@ -50,8 +53,8 @@ class MainActivity : ComponentActivity() {
                     val model = InstagramMainVM(mainViewModel = viewModel, owner = this, navController = navStateBig , context)
 
 
-                    val startDestination = model.validateToken()
-                    //val startDestination = "homePage"
+                    //val startDestination = model.validateToken()
+                    val startDestination = "homePage"
 
                     NavHost(navController = navStateBig , startDestination = startDestination ){
                         composable("signupPage"){
@@ -68,6 +71,14 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("locDesPage"){
                             locDesComp(navController = navStateBig , model = model)
+                        }
+                        composable("detail/{index}",arguments = listOf(
+                            navArgument("index"){
+                                type = NavType.IntType
+                            }
+                        )){
+                            var index = it.arguments?.getInt("index")
+                            DetailComp(model = model, navController = navStateBig, index = index as Int )
                         }
                     }
                 }

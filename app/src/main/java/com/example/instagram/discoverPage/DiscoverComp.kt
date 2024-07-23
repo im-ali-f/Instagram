@@ -83,7 +83,7 @@ fun DiscoverComp(model: InstagramMainVM, navController: NavController) {
                             backgroundColor = Color.Red,
                             modifier = Modifier
                                 .padding(1.dp)
-                                .clickable { }
+                                .clickable {  navController.navigate("detail/$index")}
                                 .fillMaxWidth(),
                             elevation = 8.dp,
                         ) {
