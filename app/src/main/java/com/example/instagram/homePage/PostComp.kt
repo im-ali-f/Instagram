@@ -3,6 +3,7 @@ package com.example.instagram.homePage
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -33,9 +34,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -777,7 +781,29 @@ fun PostsComp(model: InstagramMainVM) {
         ) {
             PullToRefreshContainer(
                 state = pullToRefreshState,
-                modifier = Modifier,
+                indicator = {
+                        state ->
+                        Crossfade(
+                            targetState = state.isRefreshing,
+                            animationSpec = tween(durationMillis = 500)
+                        ) { refreshing ->
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (refreshing) {
+                                    CircularProgressIndicator(
+                                        strokeWidth = 5.dp,
+                                        color = Color.Black,
+                                        modifier = Modifier.size(20.dp),
+                                    )
+                                } else {
+                                    Box(modifier = Modifier.size(10.dp).background(Color.Red))
+                                }
+                            }
+                        }
+
+                }
             )
         }
         if (pullToRefreshState.isRefreshing) {

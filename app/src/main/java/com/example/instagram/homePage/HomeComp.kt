@@ -117,3 +117,6 @@ fun HomeComp(navController: NavController,model: InstagramMainVM) {
     }
 
 }
+
+
+object homepage

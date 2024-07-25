@@ -73,6 +73,8 @@ dependencies {
     //nav
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
+
+
     //scaffold
     implementation("androidx.compose.material:material:1.6.2")
 
