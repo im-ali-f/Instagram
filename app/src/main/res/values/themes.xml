@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.mySplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/combine</item>
+        <item name="postSplashScreenTheme">@style/Theme.Instagram</item>
+
+    </style>
     <style name="Theme.Instagram" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

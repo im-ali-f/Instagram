@@ -769,11 +769,14 @@ fun PostsComp(model: InstagramMainVM) {
         }
 
         //test purposes
+        /*
         Column {
             Text(text = "--->>>${pullToRefreshState.verticalOffset}")
             Text(text = "--->>>${pullToRefreshState.progress}")
             Text(text = "--->>>${pullToRefreshState.positionalThreshold}")
         }
+         */
+        //test ended
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,

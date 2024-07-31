@@ -56,8 +56,8 @@ class MainActivity : ComponentActivity() {
                     val model = InstagramMainVM(mainViewModel = viewModel, owner = this, navController = navStateBig , context)
 
 
-                    //val startDestination = model.validateToken()
-                    val startDestination = "homePage"
+                    val startDestination = model.validateToken()
+                    //val startDestination = "homePage"
 
 
                         NavHost(navController = navStateBig , startDestination = startDestination ){
